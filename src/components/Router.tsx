@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Home from "../pages/home";
-import About from "../pages/about";
-import Write from "../pages/write";
-import Edit from "../pages/edit";
-import Post from "../pages/post";
-import CategoryList from "../pages/category_list";
+import Home from "pages/home";
+import About from "pages/about";
+import Write from "pages/write";
+import Edit from "pages/edit";
+import Post from "pages/post";
+import CategoryList from "pages/category_list";
 
 export default function Router() {
   return (
