@@ -21,6 +21,7 @@
   "paths": {
     "pages/*": ["pages/*"],
     "components/*": ["components/*"],
-    "styles/*": ["styles/*"]
+    "styles/*": ["styles/*"],
+    "module/*": ["module/*"]
   }
 }

@@ -1,0 +1,42 @@
+@import "variables.scss";
+
+.footer {
+  height: 150px;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1.5fr 1fr;
+  justify-items: center;
+  .footer__title {
+    align-self: center;
+    & h1 {
+      font-size: 26px;
+      font-weight: bolder;
+      color: black;
+      position: relative;
+      &::after {
+        content: "";
+        opacity: 80%;
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(to right, #99f6e4, $mainColor, #14b8a6);
+      }
+    }
+  }
+  .footer__links {
+    align-self: center;
+    display: flex;
+    gap: 20px;
+    & a {
+      color: black;
+    }
+  }
+  .footer__copyright {
+    grid-column: span 2;
+    color: gray;
+    font-size: 12px;
+  }
+}

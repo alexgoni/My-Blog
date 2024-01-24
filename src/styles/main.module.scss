@@ -2,4 +2,12 @@
   height: 100vh;
   max-width: 1024px;
   margin: 0 auto;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    height: 220vh;
+  }
 }

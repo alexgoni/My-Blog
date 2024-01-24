@@ -1,29 +1,14 @@
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "styles/navbar.module.scss";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Dropdown from "./Dropdown";
 
-const MOBILE_WIDTH = 600;
+interface NavbarProps {
+  isMobileWidth: boolean;
+}
 
-export default function Navbar() {
-  const [isMobileWidth, setIsMobileWidth] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsMobileWidth(width <= MOBILE_WIDTH);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
+export default function Navbar({ isMobileWidth }: NavbarProps) {
   return (
     <nav className={styles.nav}>
       <h1 className={styles.nav__title}>
