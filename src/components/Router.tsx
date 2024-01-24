@@ -6,6 +6,7 @@ import Write from "pages/write";
 import Edit from "pages/edit";
 import Post from "pages/post";
 import CategoryList from "pages/category_list";
+import Search from "pages/search";
 
 export default function Router() {
   return (
@@ -14,7 +15,7 @@ export default function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/category/:id" element={<About />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/write" element={<Write />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/post/:id" element={<Post />} />
