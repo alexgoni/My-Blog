@@ -1,25 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "styles/home.module.scss";
+import styles from "styles/navbar.module.scss";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
+import Dropdown from "./Dropdown";
+
+const MOBILE_WIDTH = 600;
 
 export default function Navbar() {
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobileWidth(width <= MOBILE_WIDTH);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <nav className={styles.nav}>
       <h1 className={styles.nav__title}>
         <Link to="/">Problem Solver</Link>
       </h1>
-      <div className={styles.nav__tabList}>
-        <div className={styles.write}>새 글 작성</div>
-        <div className={styles.category}>Category</div>
-        <div className={styles.lightMode}>
-          <BsSunFill size={20} />
+      {isMobileWidth ? (
+        <Dropdown />
+      ) : (
+        <div className={styles.nav__tabList}>
+          <div className={styles.write}>새 글 작성</div>
+          <div className={styles.category}>Category</div>
+          <div className={styles.lightMode}>
+            <BsSunFill size={20} />
+          </div>
+          <div className={styles.search}>
+            <CiSearch size={20} />
+          </div>
         </div>
-        <div className={styles.search}>
-          <CiSearch size={20} />
-        </div>
-      </div>
+      )}
     </nav>
   );
 }
