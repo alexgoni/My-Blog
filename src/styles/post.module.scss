@@ -1,26 +1,31 @@
-.postBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px 25px;
-  background-color: white;
-  border-radius: 10px;
-  height: 110px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  .title {
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .summary {
-    color: gray;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+@import "variables.scss";
+
+.blockContainer {
+  text-decoration: none;
+  color: black;
+  .postBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 25px;
+    background-color: white;
+    border-radius: 10px;
+    height: 110px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
-    line-height: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .introduction {
+      color: gray;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 4;
+      line-height: 18px;
+    }
   }
 }
 
@@ -33,6 +38,51 @@
 @media screen and (max-width: 600px) {
   .postList {
     grid-template-columns: 1fr;
-    padding: 0 20px;
+  }
+}
+
+.postDetail {
+  margin-top: 50px;
+  .title {
+    font-size: 36px;
+    font-weight: bolder;
+    margin: 40px 0;
+  }
+  .info {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+    .category {
+      background-color: $mainColor;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+    .date {
+      color: gray;
+      font-size: 14px;
+    }
+  }
+  .introduction {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    line-height: 18px;
+    margin-bottom: 30px;
+    color: darkslategray;
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+  }
+  .content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    line-height: 18px;
+    min-height: 200px;
   }
 }
