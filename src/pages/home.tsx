@@ -1,21 +1,14 @@
-import Navbar from "components/Navbar";
 import CategoryInfo from "components/CategoryInfo";
 import PostList from "components/PostList";
-import MainLayout from "components/MainLayout";
-import Footer from "components/Footer";
-import { useMobileDetector } from "module/useMobileDetector";
+import Layout from "components/Layout";
 
 export default function Home() {
-  const isMobileWidth = useMobileDetector();
-
   return (
     <>
-      <Navbar isMobileWidth={isMobileWidth} />
-      <MainLayout>
+      <Layout>
         <CategoryInfo />
         <PostList />
-      </MainLayout>
-      <Footer isMobileWidth={isMobileWidth} />
+      </Layout>
     </>
   );
 }
