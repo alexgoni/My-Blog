@@ -18,10 +18,12 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
         <Dropdown />
       ) : (
         <div className={styles.nav__tabList}>
-          <div className={styles.write}>새 글 작성</div>
-          <div className={styles.category}>
-            <Link to="/category-list">Category</Link>
-          </div>
+          <Link to="/write" className={styles.write}>
+            새 글 작성
+          </Link>
+          <Link to="/category-list" className={styles.category}>
+            Category
+          </Link>
           <div className={styles.lightMode}>
             <BsSunFill size={20} />
           </div>

@@ -97,3 +97,45 @@
     font-weight: bold;
   }
 }
+
+.form {
+  margin: $mainGap 0;
+  .form__block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: $mainGap 0;
+    width: 100%;
+  }
+  & label {
+    font-weight: 600;
+  }
+  & input {
+    height: 16px;
+    padding: 20px 10px;
+    border-radius: 0.3rem;
+    border: 1px solid lightgray;
+    outline: none;
+    font-size: 16px;
+  }
+  & textarea {
+    height: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 0.3rem;
+    border: 1px solid lightgray;
+    outline: none;
+
+    min-height: 400px;
+    line-height: 1.5;
+  }
+  .form__submitBtn {
+    height: max-content;
+    background-color: $mainColor;
+    &:hover,
+    &:focus {
+      background-color: $darkColor;
+      cursor: pointer;
+    }
+  }
+}

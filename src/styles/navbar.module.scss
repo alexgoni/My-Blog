@@ -24,7 +24,12 @@
         bottom: 5px;
         width: 100%;
         height: 3px;
-        background: linear-gradient(to right, #99f6e4, $mainColor, #14b8a6);
+        background: linear-gradient(
+          to right,
+          $lightColor,
+          $mainColor,
+          $darkColor
+        );
       }
     }
   }
