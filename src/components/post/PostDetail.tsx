@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "styles/post.module.scss";
 
 const TITLE = "Firestore DB";
@@ -12,8 +13,18 @@ export default function PostDetail() {
     <div className={styles.postDetail}>
       <div className={styles.title}>{TITLE}</div>
       <div className={styles.info}>
-        <span className={styles.category}>{CATEGORY}</span>
-        <span className={styles.date}>{DATE}</span>
+        <div>
+          <span className={styles.category}>{CATEGORY}</span>
+          <span className={styles.date}>{DATE}</span>
+        </div>
+        <div className={styles.utils}>
+          <Link to="/edit/1" className={styles.edit}>
+            수정
+          </Link>
+          <Link to="/edit/1" className={styles.delete}>
+            삭제
+          </Link>
+        </div>
       </div>
       <div className={styles.introduction}>
         <h1>Introduction</h1>
