@@ -1,6 +1,6 @@
-import CategoryInfo from "components/CategoryInfo";
-import PostList from "components/PostList";
-import Layout from "components/Layout";
+import CategoryInfo from "components/post/CategoryInfo";
+import PostList from "components/post/PostList";
+import Layout from "components/layout/Layout";
 
 export default function Home() {
   return (
