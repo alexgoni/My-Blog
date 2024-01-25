@@ -1,5 +1,13 @@
+import Layout from "components/layout/Layout";
+import PostList from "components/post/PostList";
 import React from "react";
 
 export default function Category() {
-  return <div>Category</div>;
+  return (
+    <>
+      <Layout>
+        <PostList />
+      </Layout>
+    </>
+  );
 }

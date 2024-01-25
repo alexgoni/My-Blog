@@ -19,7 +19,9 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
       ) : (
         <div className={styles.nav__tabList}>
           <div className={styles.write}>새 글 작성</div>
-          <div className={styles.category}>Category</div>
+          <div className={styles.category}>
+            <Link to="/category-list">Category</Link>
+          </div>
           <div className={styles.lightMode}>
             <BsSunFill size={20} />
           </div>

@@ -15,8 +15,6 @@
     font-size: 26px;
     font-weight: bolder;
     & a {
-      text-decoration: none;
-      color: black;
       position: relative;
       &::after {
         content: "";
@@ -36,40 +34,41 @@
     align-items: center;
     gap: 20px;
     color: gray;
-  }
-  .write,
-  .category,
-  .lightMode,
-  .search {
-    cursor: pointer;
-  }
-  .write {
-    margin-top: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid gray;
-    padding: 5px 15px;
-    border-radius: 20px;
-    color: black;
-    &:hover,
-    &:focus {
-      border: none;
-      background-color: #5eead4;
+    .write,
+    .category,
+    .lightMode,
+    .search {
+      cursor: pointer;
     }
-  }
-  .lightMode,
-  .search {
-    margin-top: 5px;
-    &:focus,
-    &:hover {
-      color: black;
+    & a {
+      color: gray;
+      &:focus,
+      &:hover {
+        color: black;
+      }
     }
-  }
-  .category {
-    &:focus,
-    &:hover {
+    .write {
+      margin-top: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid gray;
+      padding: 5px 15px;
+      border-radius: 20px;
       color: black;
+      &:hover,
+      &:focus {
+        border: none;
+        background-color: #5eead4;
+      }
+    }
+    .lightMode,
+    .search {
+      margin-top: 5px;
+      &:focus,
+      &:hover {
+        color: black;
+      }
     }
   }
 }

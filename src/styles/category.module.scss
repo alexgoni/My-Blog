@@ -1,0 +1,40 @@
+@import "variables.scss";
+
+.categoryBlock {
+  display: flex;
+  flex-direction: column;
+  .categoryImg {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .categoryInfo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 10px;
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .postNum {
+      color: gray;
+      font-size: 14px;
+    }
+  }
+}
+
+.categoryList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 20px;
+  row-gap: 60px;
+  justify-items: center;
+}
+
+.listTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: darkslategrey;
+  margin: $mainGap 0;
+}
