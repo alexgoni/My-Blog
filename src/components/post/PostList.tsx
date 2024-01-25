@@ -22,7 +22,17 @@ function PostBlock() {
   return (
     <Link to="/post/1" className={styles.blockContainer}>
       <div className={styles.postBlock}>
-        <h1 className={styles.title}>{TITLE}</h1>
+        <div className={styles.postBlock__firstRow}>
+          <h1 className={styles.title}>{TITLE}</h1>
+          <div className={styles.utils}>
+            <Link to="/edit/1" className={styles.edit}>
+              수정
+            </Link>
+            <Link to="/edit/1" className={styles.delete}>
+              삭제
+            </Link>
+          </div>
+        </div>
         <div className={styles.introduction}>{INTRODUCTION}</div>
       </div>
     </Link>
