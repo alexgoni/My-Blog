@@ -1,5 +1,33 @@
 @import "variables.scss";
 
+/* post list */
+
+.postList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .postList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.categoryInfo {
+  margin: $mainGap 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: darkslategrey;
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+/* post block */
+
 .postBlock {
   display: flex;
   flex-direction: column;
@@ -25,17 +53,7 @@
   }
 }
 
-.postList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 20px;
-}
-
-@media screen and (max-width: 600px) {
-  .postList {
-    grid-template-columns: 1fr;
-  }
-}
+/* post detail */
 
 .postDetail {
   margin-top: 50px;
@@ -97,17 +115,7 @@
   }
 }
 
-.categoryInfo {
-  margin: $mainGap 0;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  color: darkslategrey;
-  h1 {
-    font-size: 24px;
-    font-weight: bold;
-  }
-}
+/* post form */
 
 .form {
   margin: $mainGap 0;

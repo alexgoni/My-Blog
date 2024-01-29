@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "styles/navbar.module.scss";
+import styles from "styles/layout.module.scss";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Dropdown from "./Dropdown";

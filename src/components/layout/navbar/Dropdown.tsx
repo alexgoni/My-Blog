@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
-import styles from "styles/navbar.module.scss";
+import styles from "styles/layout.module.scss";
 
 export default function Dropdown() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);

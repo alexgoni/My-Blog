@@ -1,5 +1,24 @@
 @import "variables.scss";
 
+/* category list */
+
+.listTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: darkslategrey;
+  margin: $mainGap 0;
+}
+
+.categoryList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 20px;
+  row-gap: 60px;
+  justify-items: center;
+}
+
+/* category block */
+
 .categoryBlock {
   display: flex;
   flex-direction: column;
@@ -22,19 +41,4 @@
       font-size: 14px;
     }
   }
-}
-
-.categoryList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  column-gap: 20px;
-  row-gap: 60px;
-  justify-items: center;
-}
-
-.listTitle {
-  font-size: 24px;
-  font-weight: bold;
-  color: darkslategrey;
-  margin: $mainGap 0;
 }
