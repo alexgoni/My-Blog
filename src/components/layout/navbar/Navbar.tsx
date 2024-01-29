@@ -36,11 +36,11 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
           </Link>
           {isAuthenticated ? (
             <span className={styles.logout} onClick={logoutHandler}>
-              로그아웃
+              Logout
             </span>
           ) : (
             <Link to="/login" className={styles.login}>
-              로그인
+              Login
             </Link>
           )}
           <Link to="/category-list" className={styles.category}>
