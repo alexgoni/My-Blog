@@ -5,13 +5,13 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "components/layout/Loading";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userAuthState } from "recoil/user";
 
 function App() {
   const auth = getAuth(app);
   const [initialAuthPass, setInitialAuthPass] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useRecoilState(userAuthState);
+  const setIsAuthenticated = useSetRecoilState(userAuthState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -19,10 +19,6 @@ function App() {
       setInitialAuthPass(true);
     });
   }, [auth]);
-
-  useEffect(() => {
-    console.log(isAuthenticated);
-  }, [isAuthenticated]);
 
   return (
     <>

@@ -3,12 +3,25 @@ import styles from "styles/navbar.module.scss";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Dropdown from "./Dropdown";
+import { useRecoilValue } from "recoil";
+import { userAuthState } from "recoil/user";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "firebaseApp";
+import { toast } from "react-toastify";
 
 interface NavbarProps {
   isMobileWidth: boolean;
 }
 
 export default function Navbar({ isMobileWidth }: NavbarProps) {
+  const isAuthenticated = useRecoilValue(userAuthState);
+
+  const logoutHandler = async () => {
+    const auth = getAuth(app);
+    await signOut(auth);
+    toast.success("로그아웃 되었습니다.");
+  };
+
   return (
     <nav className={styles.nav}>
       <h1 className={styles.nav__title}>
@@ -21,9 +34,15 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
           <Link to="/write" className={styles.write}>
             새 글 작성
           </Link>
-          <Link to="/login" className={styles.login}>
-            로그인
-          </Link>
+          {isAuthenticated ? (
+            <span className={styles.logout} onClick={logoutHandler}>
+              로그아웃
+            </span>
+          ) : (
+            <Link to="/login" className={styles.login}>
+              로그인
+            </Link>
+          )}
           <Link to="/category-list" className={styles.category}>
             Category
           </Link>
