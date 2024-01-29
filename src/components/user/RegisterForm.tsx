@@ -1,5 +1,8 @@
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "firebaseApp";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styles from "styles/user.module.scss";
 
 export default function RegisterForm() {
@@ -7,6 +10,21 @@ export default function RegisterForm() {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth(app);
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      toast.success("회원가입에 성공했습니다.");
+      navigate("/");
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.code);
+    }
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,7 +68,7 @@ export default function RegisterForm() {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <form onSubmit={onSubmit} className={styles.form}>
         <h1 className={styles.form__title}>회원가입</h1>
         <div className={styles.form__block}>
           <label htmlFor="email">이메일</label>
