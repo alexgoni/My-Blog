@@ -6,16 +6,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "components/layout/Loading";
 import { useSetRecoilState } from "recoil";
-import { userAuthState } from "recoil/user";
+import { isUserAdminState, userAuthState } from "recoil/user";
 
 function App() {
   const auth = getAuth(app);
   const [initialAuthPass, setInitialAuthPass] = useState<boolean>(false);
   const setIsAuthenticated = useSetRecoilState(userAuthState);
+  const setIsUserAdmin = useSetRecoilState(isUserAdminState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setIsAuthenticated(!!user);
+      setIsUserAdmin(auth.currentUser?.uid === process.env.REACT_APP_ADMIN_UID);
       setInitialAuthPass(true);
     });
   }, [auth]);

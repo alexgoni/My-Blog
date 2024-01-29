@@ -10,10 +10,11 @@ import Category from "pages/category";
 import Login from "pages/login";
 import Register from "pages/register";
 import { useRecoilValue } from "recoil";
-import { userAuthState } from "recoil/user";
+import { isUserAdminState, userAuthState } from "recoil/user";
 
 export default function Router() {
   const isAuthenticated = useRecoilValue(userAuthState);
+  const isUserAdmin = useRecoilValue(isUserAdminState);
 
   return (
     <>
@@ -22,12 +23,16 @@ export default function Router() {
         <Route path="/category-list" element={<CategoryList />} />
         <Route path="/category/:id" element={<Category />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/write" element={<Write />} />
-        <Route path="/edit/:id" element={<Edit />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<Navigate replace to="/" />} />
         {!isAuthenticated && <Route path="/login" element={<Login />} />}
+        {isUserAdmin && (
+          <>
+            <Route path="/write" element={<Write />} />
+            <Route path="/edit/:id" element={<Edit />} />
+          </>
+        )}
       </Routes>
     </>
   );

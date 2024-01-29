@@ -1,22 +1,20 @@
-import { getAuth, signOut } from "firebase/auth";
-import { app } from "firebaseApp";
 import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useRecoilValue } from "recoil";
-import { userAuthState } from "recoil/user";
 import styles from "styles/layout.module.scss";
 
-export default function Dropdown() {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const isAuthenticated = useRecoilValue(userAuthState);
+interface DropdownProps {
+  isAuthenticated: boolean;
+  isUserAdmin: boolean;
+  logoutHandler: () => Promise<void>;
+}
 
-  const logoutHandler = async () => {
-    const auth = getAuth(app);
-    await signOut(auth);
-    toast.success("로그아웃 되었습니다.");
-  };
+export default function Dropdown({
+  isAuthenticated,
+  isUserAdmin,
+  logoutHandler,
+}: DropdownProps) {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -49,9 +47,11 @@ export default function Dropdown() {
             )}
           </li>
           <li>
-            <Link to="/write" className={styles.write}>
-              새 글 작성
-            </Link>
+            {isUserAdmin && (
+              <Link to="/write" className={styles.write}>
+                새 글 작성
+              </Link>
+            )}
           </li>
         </ul>
       )}
