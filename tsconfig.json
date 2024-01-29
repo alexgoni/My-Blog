@@ -23,6 +23,7 @@
     "components/*": ["components/*"],
     "styles/*": ["styles/*"],
     "module/*": ["module/*"],
-    "firebaseApp/*": ["firebaseApp/*"]
+    "firebaseApp/*": ["firebaseApp/*"],
+    "recoil/*": ["recoil/*"]
   }
 }
