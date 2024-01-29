@@ -7,7 +7,31 @@ export default function LoginForm() {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const onChange = () => {};
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    if (name === "email") {
+      setEmail(value);
+
+      const validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (!value?.match(validRegex)) {
+        setError("이메일 형식이 올바르지 않습니다.");
+      } else {
+        setError("");
+      }
+    }
+
+    if (name === "password") {
+      setPassword(value);
+
+      if (value?.length < 8) {
+        setError("비밀번호는 8자리 이상으로 입력해주세요");
+      } else {
+        setError("");
+      }
+    }
+  };
 
   return (
     <div className={styles.container}>

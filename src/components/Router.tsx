@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "pages/home";
 import Write from "pages/write";
@@ -10,21 +10,32 @@ import Category from "pages/category";
 import Login from "pages/login";
 import Register from "pages/register";
 
-export default function Router() {
+interface RouterProps {
+  isAuthenticated: boolean;
+}
+
+export default function Router({ isAuthenticated }: RouterProps) {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/category/:id" element={<Category />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/write" element={<Write />} />
-        <Route path="/edit/:id" element={<Edit />} />
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<Navigate replace to="/" />} />
+        {isAuthenticated ? (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/category-list" element={<CategoryList />} />
+            <Route path="/category/:id" element={<Category />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/write" element={<Write />} />
+            <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/post/:id" element={<Post />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
+          </>
+        ) : (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Login />} />
+          </>
+        )}
       </Routes>
     </>
   );
