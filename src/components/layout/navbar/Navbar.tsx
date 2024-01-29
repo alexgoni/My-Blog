@@ -21,6 +21,9 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
           <Link to="/write" className={styles.write}>
             새 글 작성
           </Link>
+          <Link to="/login" className={styles.login}>
+            로그인
+          </Link>
           <Link to="/category-list" className={styles.category}>
             Category
           </Link>

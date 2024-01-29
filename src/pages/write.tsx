@@ -1,11 +1,11 @@
 import Layout from "components/layout/Layout";
-import SubmitForm from "components/post/SubmitForm";
+import PostForm from "components/post/PostForm";
 
 export default function Write() {
   return (
     <>
       <Layout>
-        <SubmitForm />
+        <PostForm />
       </Layout>
     </>
   );

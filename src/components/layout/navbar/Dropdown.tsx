@@ -24,6 +24,7 @@ export default function Dropdown() {
           <li>Search</li>
           <li>Light</li>
           <li>Category</li>
+          <li>Login</li>
           <li>새 글 작성</li>
         </ul>
       )}

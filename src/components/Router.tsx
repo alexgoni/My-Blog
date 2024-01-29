@@ -7,6 +7,8 @@ import Post from "pages/post";
 import CategoryList from "pages/category_list";
 import Search from "pages/search";
 import Category from "pages/category";
+import Login from "pages/login";
+import Register from "pages/register";
 
 export default function Router() {
   return (
@@ -20,6 +22,8 @@ export default function Router() {
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "styles/post.module.scss";
 
-export default function SubmitForm() {
+export default function PostForm() {
   return (
     <form className={styles.form}>
       <div className={styles.form__block}>
