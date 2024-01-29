@@ -10,11 +10,11 @@
   .form {
     margin-top: 10vh;
     width: 100%;
-    .login {
+    .form__title {
       font-weight: bolder;
       font-size: 32px;
       text-align: center;
-      margin: $mainGap 0;
+      margin: $mainGap 0 60px 0;
     }
     .form__block {
       display: flex;

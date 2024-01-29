@@ -12,7 +12,7 @@ export default function LoginForm() {
   return (
     <div className={styles.container}>
       <form className={styles.form}>
-        <h1 className={styles.login}>로그인</h1>
+        <h1 className={styles.form__title}>로그인</h1>
         <div className={styles.form__block}>
           <label htmlFor="email">이메일</label>
           <input
@@ -43,7 +43,7 @@ export default function LoginForm() {
         <div className={`${styles.form__block} ${styles.form__linkBlock}`}>
           <span>계정이 없으신가요?</span>
           <Link to="/register" className={styles.form__link}>
-            회원가입
+            회원가입하기
           </Link>
         </div>
         <div className={styles.form__block}>
