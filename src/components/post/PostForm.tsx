@@ -18,7 +18,7 @@ export default function PostForm() {
         title,
         summary,
         content,
-        createAt: new Date()?.toLocaleDateString(),
+        createdAt: new Date()?.toLocaleDateString(),
       });
 
       toast.success("게시글을 생성했습니다.");

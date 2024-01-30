@@ -6,6 +6,12 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 20px;
+  .noPost {
+    margin-top: 5vh;
+    padding: 24px;
+    text-align: center;
+    color: gray;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -41,8 +47,10 @@
   .title {
     font-weight: bold;
     font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .introduction {
+  .summary {
     color: gray;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -93,7 +101,7 @@
       }
     }
   }
-  .introduction {
+  .summary {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
