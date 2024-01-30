@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const MOBILE_WIDTH = 600;
+const MOBILE_WIDTH = 648;
 
 export const useMobileDetector = () => {
   const [isMobileWidth, setIsMobileWidth] = useState(false);
