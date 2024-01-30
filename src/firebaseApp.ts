@@ -1,5 +1,6 @@
 import { FirebaseApp, getApp, initializeApp } from "firebase/app";
 import "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -11,10 +12,14 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_ID,
 };
 
-export let app: FirebaseApp;
+let app: FirebaseApp;
 
 try {
   app = getApp("app");
 } catch (e) {
   app = initializeApp(firebaseConfig, "app");
 }
+
+const db = getFirestore(app);
+
+export { app, db };

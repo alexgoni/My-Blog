@@ -1,12 +1,14 @@
-import { getAuth } from "firebase/auth";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "firebaseApp";
 import { atom } from "recoil";
 
 const auth = getAuth(app);
 
-export const userAuthState = atom({
-  key: "userAuthState",
-  default: !!auth?.currentUser,
+type UserInfoType = User | null;
+export const userInfoObj = atom<UserInfoType>({
+  key: "userInfoObj",
+  default: null,
+  dangerouslyAllowMutability: true,
 });
 
 export const isUserAdminState = atom({

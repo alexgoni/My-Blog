@@ -4,7 +4,7 @@ import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Dropdown from "./Dropdown";
 import { useRecoilValue } from "recoil";
-import { isUserAdminState, userAuthState } from "recoil/user";
+import { isUserAdminState, userInfoObj } from "recoil/user";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ isMobileWidth }: NavbarProps) {
-  const isAuthenticated = useRecoilValue(userAuthState);
+  const user = useRecoilValue(userInfoObj);
   const isUserAdmin = useRecoilValue(isUserAdminState);
 
   const logoutHandler = async () => {
@@ -30,7 +30,7 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
       </h1>
       {isMobileWidth ? (
         <Dropdown
-          isAuthenticated={isAuthenticated}
+          isAuthenticated={!!user}
           isUserAdmin={isUserAdmin}
           logoutHandler={logoutHandler}
         />
@@ -41,7 +41,7 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
               새 글 작성
             </Link>
           )}
-          {isAuthenticated ? (
+          {!!user ? (
             <span className={styles.logout} onClick={logoutHandler}>
               Logout
             </span>

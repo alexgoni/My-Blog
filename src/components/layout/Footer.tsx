@@ -8,18 +8,26 @@ interface FooterProps {
 }
 
 export default function Footer({ isMobileWidth }: FooterProps) {
+  const handleOpenNewTab = (url: string) => {
+    window.open(url, "_blank", "noopener, noreferrer");
+  };
+
   return (
     <div className={styles.footer}>
       <div className={styles.footer__title}>
         <h1>{isMobileWidth ? `PS` : `Problem Solver`}</h1>
       </div>
       <div className={styles.footer__links}>
-        <Link to="https://github.com/alexgoni">
-          <FaGithub size={24} />
-        </Link>
-        <Link to="https://velog.io/@alexgoni/posts">
-          <SiVelog size={24} />
-        </Link>
+        <FaGithub
+          size={24}
+          onClick={() => handleOpenNewTab("https://github.com/alexgoni")}
+          className={styles.footer__icon}
+        />
+        <SiVelog
+          size={24}
+          onClick={() => handleOpenNewTab("https://velog.io/@alexgoni/posts")}
+          className={styles.footer__icon}
+        />
       </div>
       <div className={styles.footer__copyright}>
         © 2024 Problem Solver. All Rights Reserved.
