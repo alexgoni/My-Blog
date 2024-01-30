@@ -28,8 +28,8 @@ function PostBlock({ data }: PostBlockProps) {
   );
 }
 
-interface PostProps {
-  id: string;
+export interface PostProps {
+  id?: string;
   title: string;
   summary: string;
   content: string;
