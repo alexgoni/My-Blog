@@ -10,10 +10,10 @@ import Category from "pages/category";
 import Login from "pages/login";
 import Register from "pages/register";
 import { useRecoilValue } from "recoil";
-import { isUserAdminState, userInfoObj } from "recoil/user";
+import { isUserAdminState, currentUserObj } from "recoil/user";
 
 export default function Router() {
-  const user = useRecoilValue(userInfoObj);
+  const user = useRecoilValue(currentUserObj);
   const isUserAdmin = useRecoilValue(isUserAdminState);
 
   return (

@@ -4,9 +4,9 @@ import { atom } from "recoil";
 
 const auth = getAuth(app);
 
-type UserInfoType = User | null;
-export const userInfoObj = atom<UserInfoType>({
-  key: "userInfoObj",
+type UserObjType = User | null;
+export const currentUserObj = atom<UserObjType>({
+  key: "currentUserObj",
   default: null,
   dangerouslyAllowMutability: true,
 });
