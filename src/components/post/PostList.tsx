@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -42,7 +42,9 @@ export default function PostList() {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   const getPosts = async () => {
-    const datas = await getDocs(collection(db, "posts"));
+    let postsRef = collection(db, "posts");
+    let postsQuery = query(postsRef, orderBy("createdAt", "desc"));
+    const datas = await getDocs(postsQuery);
 
     datas?.forEach((doc) => {
       const dataObj = { id: doc.id, ...doc.data() };
