@@ -34,6 +34,8 @@ export interface PostProps {
   summary: string;
   content: string;
   createdAt: string;
+  updatedAt?: string;
+  uid: string;
 }
 
 export default function PostList() {

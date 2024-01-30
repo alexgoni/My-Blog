@@ -35,7 +35,7 @@ export default function PostDetail() {
         </div>
         {isUserAdmin && (
           <div className={styles.utils}>
-            <Link to="/edit/1" className={styles.edit}>
+            <Link to={`/edit/${post?.id}`} className={styles.edit}>
               수정
             </Link>
             <Link to="/edit/1" className={styles.delete}>
