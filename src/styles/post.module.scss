@@ -91,9 +91,11 @@
     .utils {
       display: flex;
       gap: 5px;
-      & a {
+      & a,
+      .delete {
         font-size: 14px;
         color: gray;
+        cursor: pointer;
         &:hover,
         &:focus {
           color: black;
