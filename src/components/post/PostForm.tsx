@@ -7,15 +7,18 @@ import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
 import { currentUserObj } from "recoil/user";
 import { useRecoilValue } from "recoil";
+import { CATEGORIES, CategoryType } from "./CategoryList";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
+  const [category, setCategory] = useState<CategoryType>("Free");
   const [summary, setSummary] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [post, setPost] = useState<PostProps | null>(null);
-  const user = useRecoilValue(currentUserObj);
   const navigate = useNavigate();
   const params = useParams();
+
+  console.log(post?.category);
 
   const createPost = async () => {
     await addDoc(collection(db, "posts"), {
@@ -27,7 +30,7 @@ export default function PostForm() {
         minute: "2-digit",
         second: "2-digit",
       }),
-      uid: user?.uid,
+      category,
     });
 
     toast.success("게시글을 생성했습니다.");
@@ -45,6 +48,7 @@ export default function PostForm() {
         minute: "2-digit",
         second: "2-digit",
       }),
+      category,
     });
 
     toast.success("게시글을 수정했습니다.");
@@ -66,13 +70,16 @@ export default function PostForm() {
   };
 
   const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
 
     if (name === "title") setTitle(value);
     if (name === "summary") setSummary(value);
     if (name === "content") setContent(value);
+    if (name === "category") setCategory(value as CategoryType);
   };
 
   const getPost = async (id: string) => {
@@ -91,6 +98,7 @@ export default function PostForm() {
     setTitle(post?.title);
     setSummary(post?.summary);
     setContent(post?.content);
+    setCategory(post?.category as CategoryType);
   }, [post]);
 
   return (
@@ -107,13 +115,28 @@ export default function PostForm() {
         />
       </div>
       <div className={styles.form__block}>
+        <label htmlFor="category">카테고리</label>
+        <select
+          name="category"
+          id="category"
+          onChange={onChange}
+          value={category}
+        >
+          {CATEGORIES?.map((category) => (
+            <option value={category} key={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={styles.form__block}>
         <label htmlFor="summary">요약</label>
-        <input
-          type="text"
+        <textarea
           name="summary"
           id="summary"
           value={summary}
           onChange={onChange}
+          className={styles.summary}
           required
         />
       </div>

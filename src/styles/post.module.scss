@@ -149,7 +149,6 @@
     outline: none;
   }
   & textarea {
-    height: 20px;
     padding: 10px;
     font-size: 16px;
     border-radius: 0.3rem;
@@ -157,6 +156,9 @@
     outline: none;
     min-height: 400px;
     line-height: 1.5;
+  }
+  .summary {
+    min-height: 100px;
   }
   .form__submitBtn {
     width: 100%;
@@ -169,5 +171,13 @@
       background-color: $darkColor;
       cursor: pointer;
     }
+  }
+  select {
+    border: 1px solid #f2f2f2;
+    max-width: 360px;
+    height: 40px;
+    padding: 0px 10px;
+    border-radius: 0.3rem;
+    outline: none;
   }
 }

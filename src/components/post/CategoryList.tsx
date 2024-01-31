@@ -16,6 +16,15 @@ function CategoryBlock() {
   );
 }
 
+export type CategoryType = "Free" | "Frontend" | "Backend" | "Web" | "Native";
+export const CATEGORIES: CategoryType[] = [
+  "Free",
+  "Frontend",
+  "Backend",
+  "Web",
+  "Native",
+];
+
 export default function CategoryList() {
   return (
     <>

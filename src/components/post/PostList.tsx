@@ -3,13 +3,26 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "styles/post.module.scss";
+import { CategoryType } from "./CategoryList";
 
 function CategoryInfo() {
+  const [documentCount, setDocumentCount] = useState<number>(0);
+
+  const getDocumentCount = async () => {
+    const collectionRef = collection(db, "posts");
+    const querySnapshot = await getDocs(collectionRef);
+    setDocumentCount(querySnapshot.size);
+  };
+
+  useEffect(() => {
+    getDocumentCount();
+  }, []);
+
   return (
     <>
       <div className={styles.categoryInfo}>
         <h1 className="category">All</h1>
-        <div className="postNum">0 posts</div>
+        <div className="postNum">{documentCount} posts</div>
       </div>
     </>
   );
@@ -35,7 +48,7 @@ export interface PostProps {
   content: string;
   createdAt: string;
   updatedAt?: string;
-  uid: string;
+  category: CategoryType;
 }
 
 export default function PostList() {

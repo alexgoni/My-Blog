@@ -8,8 +8,6 @@ import { db } from "firebaseApp";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
-const CATEGORY = "Web";
-
 export default function PostDetail() {
   const [post, setPost] = useState<PostProps | null>(null);
   const isUserAdmin = useRecoilValue(isUserAdminState);
@@ -42,7 +40,7 @@ export default function PostDetail() {
       <div className={styles.title}>{post?.title}</div>
       <div className={styles.info}>
         <div>
-          <span className={styles.category}>{CATEGORY}</span>
+          <span className={styles.category}>{post?.category}</span>
           <span className={styles.date}>{post?.createdAt}</span>
         </div>
         {isUserAdmin && (
