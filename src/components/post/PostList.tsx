@@ -11,10 +11,9 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
-import { CategoryType } from "../category/CategoryList";
 
 interface CategoryInfoProps {
-  category?: CategoryType | null;
+  category?: string | null;
 }
 
 function CategoryInfo({ category }: CategoryInfoProps) {
@@ -67,7 +66,7 @@ export interface PostProps {
   content: string;
   createdAt: string;
   updatedAt?: string;
-  category: CategoryType;
+  category: string;
 }
 
 export function HomePostList() {
@@ -108,12 +107,12 @@ export function HomePostList() {
 
 export function CategoryPostList() {
   const [posts, setPosts] = useState<PostProps[]>([]);
-  const [category, setCategory] = useState<CategoryType | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const params = useParams();
 
   useEffect(() => {
     if (params?.category) {
-      setCategory(params.category as CategoryType);
+      setCategory(params.category);
     }
   }, []);
 

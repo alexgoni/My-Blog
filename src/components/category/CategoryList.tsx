@@ -35,14 +35,6 @@ function CategoryBlock({ data }: CategoryBlockProps) {
   );
 }
 
-export type CategoryType = "Free" | "Frontend" | "Backend" | "Web" | "Native";
-export const CATEGORIES: CategoryType[] = [
-  "Free",
-  "Frontend",
-  "Backend",
-  "Web",
-  "Native",
-];
 export interface CategoryProps {
   id: string;
   category: string;
@@ -56,8 +48,8 @@ export default function CategoryList() {
   const isUserAdmin = useRecoilValue(isUserAdminState);
 
   const getCategories = async () => {
-    let cateogriesRef = collection(db, "category");
-    let cateogriesQuery = query(cateogriesRef, orderBy("createdAt", "desc"));
+    const cateogriesRef = collection(db, "category");
+    const cateogriesQuery = query(cateogriesRef, orderBy("createdAt", "desc"));
     const datas = await getDocs(cateogriesQuery);
 
     datas?.forEach((doc) => {

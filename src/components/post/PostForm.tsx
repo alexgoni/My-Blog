@@ -1,22 +1,40 @@
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
-import { currentUserObj } from "recoil/user";
-import { useRecoilValue } from "recoil";
-import { CATEGORIES, CategoryType } from "../category/CategoryList";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
-  const [category, setCategory] = useState<CategoryType>("Free");
+  const [categoryList, setCategoryList] = useState<string[]>([]);
+  const [category, setCategory] = useState<string>("Free");
   const [summary, setSummary] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [post, setPost] = useState<PostProps | null>(null);
   const navigate = useNavigate();
   const params = useParams();
+
+  const getCategoryList = async () => {
+    const cateogriesRef = collection(db, "category");
+    const cateogriesQuery = query(cateogriesRef, orderBy("createdAt", "asc"));
+    const datas = await getDocs(cateogriesQuery);
+
+    datas?.forEach((doc) => {
+      console.log(doc.data().category);
+      setCategoryList((prev) => [...prev, doc.data().category]);
+    });
+  };
 
   const createPost = async () => {
     await addDoc(collection(db, "posts"), {
@@ -77,7 +95,7 @@ export default function PostForm() {
     if (name === "title") setTitle(value);
     if (name === "summary") setSummary(value);
     if (name === "content") setContent(value);
-    if (name === "category") setCategory(value as CategoryType);
+    if (name === "category") setCategory(value);
   };
 
   const getPost = async (id: string) => {
@@ -88,6 +106,10 @@ export default function PostForm() {
   };
 
   useEffect(() => {
+    getCategoryList();
+  }, []);
+
+  useEffect(() => {
     if (params?.id) getPost(params?.id);
   }, []);
 
@@ -96,7 +118,7 @@ export default function PostForm() {
     setTitle(post?.title);
     setSummary(post?.summary);
     setContent(post?.content);
-    setCategory(post?.category as CategoryType);
+    setCategory(post?.category);
   }, [post]);
 
   return (
@@ -120,7 +142,7 @@ export default function PostForm() {
           onChange={onChange}
           value={category}
         >
-          {CATEGORIES?.map((category) => (
+          {categoryList?.map((category) => (
             <option value={category} key={category}>
               {category}
             </option>
