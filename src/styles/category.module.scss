@@ -50,3 +50,116 @@
     }
   }
 }
+
+.adminContainer {
+  padding-top: 20vh;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+  gap: 40px;
+  .list {
+    width: 80%;
+    h1 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    .categories {
+      border: 1px solid #c6c6c6;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      height: 45vh;
+      overflow-y: auto;
+      .category {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #cbd5e0;
+        padding: 15px 10px;
+        align-items: flex-end;
+        background-color: #f7fafc;
+        .delete {
+          font-size: 12px;
+          color: lightcoral;
+          cursor: pointer;
+          &:hover,
+          &:focus {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+  .createForm {
+    .previewImg {
+      margin-bottom: 20px;
+      border: 1px solid #c6c6c6;
+      border-radius: 5px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .fileBlock {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        .fileName {
+          outline: none;
+          flex-grow: 1;
+          padding: 5px;
+        }
+        .fileUpload {
+          font-size: 12px;
+          padding: 10px;
+          border-radius: 5px;
+          background-color: darkgray;
+          &:hover,
+          &:focus {
+            background-color: gray;
+            cursor: pointer;
+          }
+        }
+      }
+      .categoryNameBlock {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        input {
+          flex-grow: 1;
+          padding: 5px;
+          outline: none;
+        }
+      }
+      .submitBlock {
+        input {
+          float: right;
+          padding: 10px 40px;
+          border-radius: 5px;
+          background-color: $mainColor;
+          border: none;
+          &:hover,
+          &:focus {
+            background-color: $darkColor;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .adminContainer {
+    padding: 10vh 0;
+    grid-template-columns: 1fr;
+  }
+}
