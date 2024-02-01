@@ -18,8 +18,6 @@ export default function PostForm() {
   const navigate = useNavigate();
   const params = useParams();
 
-  console.log(post?.category);
-
   const createPost = async () => {
     await addDoc(collection(db, "posts"), {
       title,

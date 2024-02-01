@@ -21,7 +21,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/category/:id" element={<Category />} />
+        <Route path="/category/:category/:id" element={<Category />} />
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/register" element={<Register />} />

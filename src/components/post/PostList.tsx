@@ -1,11 +1,15 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { CategoryType } from "./CategoryList";
 
-function CategoryInfo() {
+interface CategoryInfoProps {
+  category?: CategoryType | null;
+}
+
+function CategoryInfo({ category }: CategoryInfoProps) {
   const [documentCount, setDocumentCount] = useState<number>(0);
 
   const getDocumentCount = async () => {
@@ -21,7 +25,7 @@ function CategoryInfo() {
   return (
     <>
       <div className={styles.categoryInfo}>
-        <h1 className="category">All</h1>
+        <h1 className="category">{category ? category : "All"}</h1>
         <div className="postNum">{documentCount} posts</div>
       </div>
     </>
@@ -51,12 +55,14 @@ export interface PostProps {
   category: CategoryType;
 }
 
-export default function PostList() {
+export function HomePostList() {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   const getPosts = async () => {
-    let postsRef = collection(db, "posts");
-    let postsQuery = query(postsRef, orderBy("createdAt", "desc"));
+    setPosts([]);
+
+    const postsRef = collection(db, "posts");
+    const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
     const datas = await getDocs(postsQuery);
 
     datas?.forEach((doc) => {
@@ -72,6 +78,54 @@ export default function PostList() {
   return (
     <>
       <CategoryInfo />
+      <div className={styles.postList}>
+        {posts?.length > 0 ? (
+          posts?.map((postData) => (
+            <PostBlock key={postData?.id} data={postData} />
+          ))
+        ) : (
+          <div className={styles.noPost}>게시글이 없습니다.</div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export function CategoryPostList() {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [category, setCategory] = useState<CategoryType | null>(null);
+  const params = useParams();
+
+  useEffect(() => {
+    if (params?.category) {
+      setCategory(params.category as CategoryType);
+    }
+  }, []);
+
+  const getPosts = async () => {
+    setPosts([]);
+
+    const postsRef = collection(db, "posts");
+    const postsQuery = query(
+      postsRef,
+      where("category", "==", category),
+      orderBy("createdAt", "desc")
+    );
+    const datas = await getDocs(postsQuery);
+
+    datas?.forEach((doc) => {
+      const dataObj = { id: doc.id, ...doc.data() };
+      setPosts((prev) => [...prev, dataObj as PostProps]);
+    });
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, [category]);
+
+  return (
+    <>
+      <CategoryInfo category={category} />
       <div className={styles.postList}>
         {posts?.length > 0 ? (
           posts?.map((postData) => (
