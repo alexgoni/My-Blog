@@ -1,4 +1,12 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,7 +27,7 @@ function CategoryBlock({ data }: CategoryBlockProps) {
       <img src={imagePath} alt="img" className={styles.categoryImg} />
       <div className={styles.categoryInfo}>
         <h1 className={styles.title}>{data?.category}</h1>
-        <span className={styles.postNum}>3개의 포스트</span>
+        <span className={styles.postNum}>{data?.postNum}개의 포스트</span>
       </div>
     </Link>
   );
@@ -37,6 +45,7 @@ interface CategoryProps {
   id: string;
   category: string;
   createdAt: string;
+  postNum: number;
 }
 
 export default function CategoryList() {
@@ -53,9 +62,34 @@ export default function CategoryList() {
     });
   };
 
+  const updatePostNum = async () => {
+    const collectionRef = collection(db, "posts");
+    for (const category of categories) {
+      let postsQuery = query(
+        collectionRef,
+        where("category", "==", category.category)
+      );
+      try {
+        const querySnapshot = await getDocs(postsQuery);
+        const postNum = querySnapshot.size;
+
+        const postRef = doc(db, "category", category.id);
+        await updateDoc(postRef, {
+          postNum,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+    updatePostNum();
+  }, [categories]);
 
   return (
     <>

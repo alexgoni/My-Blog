@@ -1,4 +1,12 @@
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -11,16 +19,23 @@ interface CategoryInfoProps {
 
 function CategoryInfo({ category }: CategoryInfoProps) {
   const [documentCount, setDocumentCount] = useState<number>(0);
+  const params = useParams();
 
   const getDocumentCount = async () => {
-    const collectionRef = collection(db, "posts");
-    const querySnapshot = await getDocs(collectionRef);
-    setDocumentCount(querySnapshot.size);
+    if (params?.id) {
+      const docRef = doc(db, "category", params?.id);
+      const docSnap = await getDoc(docRef);
+      setDocumentCount(docSnap.data()?.postNum);
+    } else {
+      const collectionRef = collection(db, "posts");
+      const querySnapshot = await getDocs(collectionRef);
+      setDocumentCount(querySnapshot.size);
+    }
   };
 
   useEffect(() => {
     getDocumentCount();
-  }, []);
+  }, [category]);
 
   return (
     <>
