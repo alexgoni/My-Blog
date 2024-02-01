@@ -31,7 +31,6 @@ export default function PostForm() {
     const datas = await getDocs(cateogriesQuery);
 
     datas?.forEach((doc) => {
-      console.log(doc.data().category);
       setCategoryList((prev) => [...prev, doc.data().category]);
     });
   };

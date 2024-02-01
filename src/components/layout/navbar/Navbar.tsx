@@ -3,11 +3,12 @@ import styles from "styles/layout.module.scss";
 import { BsMoonFill, BsSunFill } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Dropdown from "./Dropdown";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { isUserAdminState, currentUserObj } from "recoil/user";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
+import { themeState } from "recoil/theme";
 
 interface NavbarProps {
   isMobileWidth: boolean;
@@ -16,6 +17,12 @@ interface NavbarProps {
 export default function Navbar({ isMobileWidth }: NavbarProps) {
   const user = useRecoilValue(currentUserObj);
   const isUserAdmin = useRecoilValue(isUserAdminState);
+  const [theme, setTheme] = useRecoilState(themeState);
+
+  const toggleTheme = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+    window.localStorage.setItem("theme", theme === "light" ? "dark" : "light");
+  };
 
   const logoutHandler = async () => {
     const auth = getAuth(app);
@@ -53,8 +60,12 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
           <Link to="/category-list" className={styles.category}>
             Category
           </Link>
-          <div className={styles.lightMode}>
-            <BsSunFill size={20} />
+          <div className={styles.lightMode} onClick={toggleTheme}>
+            {theme === "light" ? (
+              <BsSunFill size={20} />
+            ) : (
+              <BsMoonFill size={20} />
+            )}
           </div>
           <div className={styles.search}>
             <CiSearch size={20} />

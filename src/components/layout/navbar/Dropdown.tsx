@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { themeState } from "recoil/theme";
 import styles from "styles/layout.module.scss";
 
 interface DropdownProps {
@@ -15,6 +17,11 @@ export default function Dropdown({
   logoutHandler,
 }: DropdownProps) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [theme, setTheme] = useRecoilState(themeState);
+
+  const toggleTheme = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -33,7 +40,9 @@ export default function Dropdown({
       {isDropdownOpen && (
         <ul className={styles.dropdown__contents}>
           <li>Search</li>
-          <li>Light</li>
+          <li onClick={toggleTheme}>
+            {theme === "light" ? <span>Light</span> : <span>Dark</span>}
+          </li>
           <li>
             <Link to="/category-list">Category</Link>
           </li>
