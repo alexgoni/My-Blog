@@ -44,11 +44,12 @@ export const CATEGORIES: CategoryType[] = [
   "Web",
   "Native",
 ];
-interface CategoryProps {
+export interface CategoryProps {
   id: string;
   category: string;
   createdAt: string;
   postNum: number;
+  imgUrl: string;
 }
 
 export default function CategoryList() {

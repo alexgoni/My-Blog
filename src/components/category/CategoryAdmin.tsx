@@ -1,27 +1,50 @@
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "firebaseApp";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import styles from "styles/category.module.scss";
-
-const LIST = ["Free", "Frontend", "Backend", "Free", "Free", "Free", "Free"];
+import { CategoryProps } from "./CategoryList";
 
 function CategoryList() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+
+  const getCategories = async () => {
+    setCategories([]);
+
+    const categoriesRef = collection(db, "category");
+    const categoriesQuery = query(categoriesRef, orderBy("createdAt", "asc"));
+    const datas = await getDocs(categoriesQuery);
+
+    datas?.forEach((doc) => {
+      const dataObj = { id: doc.id, ...doc.data() };
+      setCategories((prev) => [...prev, dataObj as CategoryProps]);
+    });
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
     containerRef.current.scrollTop = containerRef.current.scrollHeight;
-  }, [LIST]);
+  }, [categories]);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <div className={styles.list}>
       <h1>Category List</h1>
       <div className={styles.categories} ref={containerRef}>
-        {LIST.map((each, index) => (
-          <div className={styles.category} key={index}>
-            {each}
+        {categories.map((category) => (
+          <div className={styles.category} key={category.id}>
+            {category.category}
             <span className={styles.delete}>삭제</span>
           </div>
         ))}
@@ -74,8 +97,6 @@ function CategoryForm() {
       }),
       imgUrl,
     });
-
-    toast.success("게시글을 생성했습니다.");
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +105,9 @@ function CategoryForm() {
     try {
       await uploadImage();
       await createCategory();
+
+      toast.success("게시글을 생성했습니다.");
+      window.location.reload();
     } catch (error: any) {
       console.log(error);
       toast.error(error.code);
