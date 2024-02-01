@@ -75,7 +75,6 @@ function CategoryForm() {
   const [fileName, setFileName] = useState<string>("");
   const [categoryName, setCategoryName] = useState<string>("");
   const [categoryImg, setCategoryImg] = useState<File | null>(null);
-  const [imgUrl, setImgUrl] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -99,11 +98,11 @@ function CategoryForm() {
     const storageRef = ref(storage, `categoryImg/${categoryImg?.name}`);
     await uploadBytes(storageRef, categoryImgBlob);
 
-    const downloadURL = await getDownloadURL(storageRef);
-    setImgUrl(downloadURL);
+    const imgUrl = await getDownloadURL(storageRef);
+    return imgUrl;
   };
 
-  const createCategory = async () => {
+  const createCategory = async (imgUrl: string) => {
     await addDoc(collection(db, "category"), {
       category: categoryName,
       postNum: 0,
@@ -120,8 +119,8 @@ function CategoryForm() {
     e.preventDefault();
 
     try {
-      await uploadImage();
-      await createCategory();
+      const imgUrl = await uploadImage();
+      await createCategory(imgUrl);
 
       toast.success("게시글을 생성했습니다.");
       window.location.reload();

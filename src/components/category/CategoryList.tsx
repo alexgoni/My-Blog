@@ -20,14 +20,13 @@ interface CategoryBlockProps {
 }
 
 function CategoryBlock({ data }: CategoryBlockProps) {
-  const imagePath = process.env.PUBLIC_URL + "/vim.jpg";
-
   return (
     <Link
       to={`/category/${data?.category}/${data?.id}`}
       className={styles.categoryBlock}
     >
-      <img src={imagePath} alt="img" className={styles.categoryImg} />
+      <img src={data?.imgUrl} alt="img" className={styles.categoryImg} />
+
       <div className={styles.categoryInfo}>
         <h1 className={styles.title}>{data?.category}</h1>
         <span className={styles.postNum}>{data?.postNum}개의 포스트</span>
