@@ -1,6 +1,8 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   orderBy,
   query,
@@ -29,6 +31,16 @@ function CategoryList() {
     });
   };
 
+  const handleDelete = async (categoryId: string) => {
+    const confirm = window.confirm("해당 카테고리를 삭제하시겠습니까?");
+    if (confirm && categoryId) {
+      await deleteDoc(doc(db, "category", categoryId));
+
+      toast.success("게시글을 삭제했습니다.");
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
     if (!containerRef.current) return;
     containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -45,7 +57,12 @@ function CategoryList() {
         {categories.map((category) => (
           <div className={styles.category} key={category.id}>
             {category.category}
-            <span className={styles.delete}>삭제</span>
+            <span
+              className={styles.delete}
+              onClick={() => handleDelete(category.id)}
+            >
+              삭제
+            </span>
           </div>
         ))}
       </div>
