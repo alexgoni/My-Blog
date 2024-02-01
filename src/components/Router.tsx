@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "pages/home";
-import Write from "pages/write";
-import Edit from "pages/edit";
-import Post from "pages/post";
-import CategoryList from "pages/category_list";
+import Write from "pages/post/write";
+import Edit from "pages/post/edit";
+import Post from "pages/post/post";
+import CategoryList from "pages/category/category_list";
 import Search from "pages/search";
-import Category from "pages/category";
-import Login from "pages/login";
-import Register from "pages/register";
+import Category from "pages/category/category";
+import Login from "pages/user/login";
+import Register from "pages/user/register";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState, currentUserObj } from "recoil/user";
+import CategoryAdminPage from "pages/category/category_admin";
 
 export default function Router() {
   const user = useRecoilValue(currentUserObj);
@@ -31,6 +32,7 @@ export default function Router() {
           <>
             <Route path="/write" element={<Write />} />
             <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/category/admin" element={<CategoryAdminPage />} />
           </>
         )}
       </Routes>

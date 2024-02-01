@@ -11,7 +11,7 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
-import { CategoryType } from "./CategoryList";
+import { CategoryType } from "../category/CategoryList";
 
 interface CategoryInfoProps {
   category?: CategoryType | null;

@@ -7,7 +7,7 @@ import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
 import { currentUserObj } from "recoil/user";
 import { useRecoilValue } from "recoil";
-import { CATEGORIES, CategoryType } from "./CategoryList";
+import { CATEGORIES, CategoryType } from "../category/CategoryList";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");

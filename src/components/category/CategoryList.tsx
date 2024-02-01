@@ -11,6 +11,9 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "styles/category.module.scss";
+import { FiPlusCircle } from "react-icons/fi";
+import { useRecoilValue } from "recoil";
+import { isUserAdminState } from "recoil/user";
 
 interface CategoryBlockProps {
   data: CategoryProps;
@@ -50,6 +53,7 @@ interface CategoryProps {
 
 export default function CategoryList() {
   const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const isUserAdmin = useRecoilValue(isUserAdminState);
 
   const getCategories = async () => {
     let cateogriesRef = collection(db, "category");
@@ -93,7 +97,12 @@ export default function CategoryList() {
 
   return (
     <>
-      <h1 className={styles.listTitle}>Category List</h1>
+      <div className={styles.header}>
+        <h1 className={styles.listTitle}>Category List</h1>
+        <Link to="/category/admin">
+          {isUserAdmin && <FiPlusCircle size={28} className={styles.plus} />}
+        </Link>
+      </div>
       <div className={styles.categoryList}>
         {categories?.map((categoryData) => (
           <CategoryBlock key={categoryData?.id} data={categoryData} />

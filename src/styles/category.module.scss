@@ -2,11 +2,19 @@
 
 /* category list */
 
-.listTitle {
-  font-size: 24px;
-  font-weight: bold;
-  color: darkslategrey;
-  margin: $mainGap 0;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .listTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: darkslategrey;
+    margin: $mainGap 0;
+  }
+  .plus {
+    margin-top: 6px;
+  }
 }
 
 .categoryList {
