@@ -7,6 +7,7 @@ import { PostProps } from "./PostList";
 import { db } from "firebaseApp";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import Comments from "./Comments";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostProps | null>(null);
@@ -61,6 +62,7 @@ export default function PostDetail() {
       <div className={styles.content}>
         <p>{post?.content}</p>
       </div>
+      <Comments />
     </div>
   );
 }

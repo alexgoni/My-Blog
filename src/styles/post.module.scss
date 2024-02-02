@@ -107,6 +107,7 @@
     }
   }
   .summary {
+    border: 1px solid lightgray;
     background-color: var(--detailBG);
     padding: 20px;
     border-radius: 5px;
@@ -120,12 +121,87 @@
     }
   }
   .content {
+    border: 1px solid lightgray;
     background-color: var(--detailBG);
     padding: 20px;
     border-radius: 5px;
     line-height: 18px;
     min-height: 200px;
     white-space: pre-wrap;
+  }
+}
+
+/* comments */
+
+.comments {
+  margin-top: 60px;
+  .comments__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    label {
+      font-weight: 600;
+      margin: 10px 0;
+    }
+    textarea {
+      min-height: 100px;
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      line-height: 18px;
+      font-size: 16px;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid lightgray;
+      background-color: var(--detailBG);
+    }
+    .submitBtn {
+      align-self: flex-end;
+      margin: 10px 0;
+      padding: 8px 20px;
+      background-color: $mainColor;
+      border: none;
+      border-radius: 5px;
+      &:hover,
+      &:focus {
+        background-color: $darkColor;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.comments__list {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  .commentBox {
+    padding: 12px 0;
+    border-bottom: 1px solid lightgray;
+    .profileBox {
+      margin: 10px 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      .email {
+        font-weight: 600;
+      }
+      .date {
+        color: gray;
+      }
+      .delete {
+        cursor: pointer;
+        color: lightcoral;
+        &:hover,
+        &:focus {
+          color: red;
+        }
+      }
+    }
+    .commentText {
+      font-size: 14px;
+      padding-top: 4px;
+    }
   }
 }
 
