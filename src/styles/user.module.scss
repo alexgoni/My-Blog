@@ -7,6 +7,16 @@
   padding: 0 20px;
   display: flex;
   justify-content: center;
+  color: var(--text);
+  & input {
+    height: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 0.3rem;
+    border: 1px solid lightgray;
+    outline: none;
+    background-color: var(--bg);
+  }
   .form {
     margin-top: 10vh;
     width: 100%;
@@ -49,13 +59,5 @@
         }
       }
     }
-  }
-  & input {
-    height: 20px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 0.3rem;
-    border: 1px solid lightgray;
-    outline: none;
   }
 }

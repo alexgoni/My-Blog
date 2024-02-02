@@ -5,9 +5,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "components/layout/Loading";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isUserAdminState, currentUserObj } from "recoil/user";
 import { RecoilEnv } from "recoil";
+import { themeState } from "recoil/theme";
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 
@@ -16,6 +17,7 @@ function App() {
   const [initialAuthPass, setInitialAuthPass] = useState<boolean>(false);
   const setIsUserAdmin = useSetRecoilState(isUserAdminState);
   const setUser = useSetRecoilState(currentUserObj);
+  const theme = useRecoilValue(themeState);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -26,10 +28,10 @@ function App() {
   }, [auth]);
 
   return (
-    <>
+    <div className={theme === "light" ? "white" : "dark"}>
       <ToastContainer />
       {initialAuthPass ? <Router /> : <Loading />}
-    </>
+    </div>
   );
 }
 

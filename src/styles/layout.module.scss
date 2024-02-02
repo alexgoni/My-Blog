@@ -12,12 +12,13 @@
   margin: 0 auto;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: padding 0.3s ease, min-height 0.3s ease;
-  background-color: white;
+  background-color: var(--nav);
   .nav__title {
     font-size: 26px;
     font-weight: bolder;
     & a {
       position: relative;
+      color: var(--text);
       &::after {
         content: "";
         opacity: 80%;
@@ -41,8 +42,6 @@
     align-items: center;
     gap: 20px;
     color: gray;
-    .write,
-    .category,
     .logout,
     .lightMode,
     .search {
@@ -59,7 +58,7 @@
       color: gray;
       &:focus,
       &:hover {
-        color: black;
+        color: var(--text);
       }
     }
     .write {
@@ -70,11 +69,12 @@
       border: 1px solid gray;
       padding: 5px 15px;
       border-radius: 20px;
-      color: black;
+      color: var(--text);
       &:hover,
       &:focus {
         border: none;
-        background-color: #5eead4;
+        background-color: $mainColor;
+        color: black;
       }
     }
     .lightMode,
@@ -82,7 +82,7 @@
       margin-top: 5px;
       &:focus,
       &:hover {
-        color: black;
+        color: var(--text);
       }
     }
   }
@@ -98,17 +98,18 @@
 .dropdown {
   cursor: pointer;
   position: relative;
+  color: var(--dropdownBtn);
   .dropdown__btn {
     &:focus,
     &:hover {
-      color: #14b8a6;
+      color: $darkColor;
     }
   }
   .dropdown__btn__open {
-    color: #14b8a6;
+    color: $darkColor;
     &:focus,
     &:hover {
-      color: black;
+      color: var(--dropdownBtn);
     }
   }
   .dropdown__contents {
@@ -120,7 +121,7 @@
     padding: 10px 20px;
     color: gray;
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--dropdownBG);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 999;
     & li {
@@ -168,17 +169,17 @@
 
 .footer {
   height: 150px;
-  background-color: white;
+  background-color: var(--footer);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1.5fr 1fr;
   justify-items: center;
+  color: var(--text);
   .footer__title {
     align-self: center;
     & h1 {
       font-size: 26px;
       font-weight: bolder;
-      color: black;
       position: relative;
       &::after {
         content: "";
@@ -188,7 +189,12 @@
         bottom: 2px;
         width: 100%;
         height: 3px;
-        background: linear-gradient(to right, #99f6e4, $mainColor, #14b8a6);
+        background: linear-gradient(
+          to right,
+          $lightColor,
+          $mainColor,
+          $darkColor
+        );
       }
     }
   }

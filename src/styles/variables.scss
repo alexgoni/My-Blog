@@ -2,3 +2,28 @@ $lightColor: #99f6e4;
 $mainColor: #5eead4;
 $darkColor: #14b8a6;
 $mainGap: 30px;
+
+$white: (
+  "bg": #f3f5f7,
+  "nav": white,
+  "footer": white,
+  "text": black,
+  "dropdownBtn": black,
+  "dropdownBG": white,
+  "subTitle": darkslategray,
+  "postBlock": white,
+  "detailBG": white,
+  "categoryList": #f7fafc,
+);
+$dark: (
+  "bg": #242629,
+  "nav": black,
+  "footer": black,
+  "text": #f3f5f7,
+  "dropdownBtn": white,
+  "dropdownBG": #34373d,
+  "subTitle": #bdf7eb,
+  "postBlock": rgb(19, 19, 19),
+  "detailBG": rgb(19, 19, 19),
+  "categoryList": rgb(19, 19, 19),
+);
