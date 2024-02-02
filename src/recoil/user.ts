@@ -1,4 +1,4 @@
-import { User, getAuth, onAuthStateChanged } from "firebase/auth";
+import { User, getAuth } from "firebase/auth";
 import { app } from "firebaseApp";
 import { atom } from "recoil";
 
