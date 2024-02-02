@@ -8,6 +8,7 @@ import { db } from "firebaseApp";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
+import Loading from "components/layout/Loading";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostProps | null>(null);
@@ -37,32 +38,40 @@ export default function PostDetail() {
   }, []);
 
   return (
-    <div className={styles.postDetail}>
-      <div className={styles.title}>{post?.title}</div>
-      <div className={styles.info}>
-        <div>
-          <span className={styles.category}>{post?.category}</span>
-          <span className={styles.date}>{post?.createdAt}</span>
-        </div>
-        {isUserAdmin && (
-          <div className={styles.utils}>
-            <Link to={`/edit/${post?.id}`} className={styles.edit}>
-              수정
-            </Link>
-            <span onClick={handleDelete} className={styles.delete}>
-              삭제
-            </span>
+    <>
+      {post ? (
+        <>
+          <div className={styles.postDetail}>
+            <div className={styles.title}>{post?.title}</div>
+            <div className={styles.info}>
+              <div>
+                <span className={styles.category}>{post?.category}</span>
+                <span className={styles.date}>{post?.createdAt}</span>
+              </div>
+              {isUserAdmin && (
+                <div className={styles.utils}>
+                  <Link to={`/edit/${post?.id}`} className={styles.edit}>
+                    수정
+                  </Link>
+                  <span onClick={handleDelete} className={styles.delete}>
+                    삭제
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className={styles.summary}>
+              <h1>Introduction</h1>
+              {post?.summary}
+            </div>
+            <div className={styles.content}>
+              <p>{post?.content}</p>
+            </div>
+            <Comments post={post} />
           </div>
-        )}
-      </div>
-      <div className={styles.summary}>
-        <h1>Introduction</h1>
-        {post?.summary}
-      </div>
-      <div className={styles.content}>
-        <p>{post?.content}</p>
-      </div>
-      <Comments />
-    </div>
+        </>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

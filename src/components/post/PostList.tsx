@@ -11,6 +11,7 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
+import { CommentsInterface } from "./Comments";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -67,6 +68,7 @@ export interface PostProps {
   createdAt: string;
   updatedAt?: string;
   category: string;
+  comments?: CommentsInterface[];
 }
 
 export function HomePostList() {
