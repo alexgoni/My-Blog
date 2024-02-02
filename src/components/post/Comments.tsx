@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 interface CommentFormProps {
   post: PostProps;
   user: UserObjType;
+  getPost: (id: string) => Promise<void>;
 }
 
 export interface CommentsInterface {
@@ -19,7 +20,7 @@ export interface CommentsInterface {
   createdAt: string;
 }
 
-function CommentForm({ post, user }: CommentFormProps) {
+function CommentForm({ post, user, getPost }: CommentFormProps) {
   const [comment, setComment] = useState<string>("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,6 +43,8 @@ function CommentForm({ post, user }: CommentFormProps) {
         await updateDoc(postRef, {
           comments: arrayUnion(commentObj),
         });
+        await getPost(post.id);
+
         toast.success("댓글을 생성했습니다.");
         setComment("");
       }
@@ -71,55 +74,42 @@ function CommentForm({ post, user }: CommentFormProps) {
   );
 }
 
-const COMMENTS = [
-  {
-    id: 1,
-    email: "goni000211@gmail.com",
-    content: "댓글입니다.",
-    createdAt: "2023-10-23",
-  },
-  {
-    id: 2,
-    email: "goni000211@gmail.com",
-    content: "댓글입니다.",
-    createdAt: "2023-10-23",
-  },
-  {
-    id: 3,
-    email: "goni000211@gmail.com",
-    content: "댓글입니다.",
-    createdAt: "2023-10-23",
-  },
-];
+interface CommentListProps {
+  post: PostProps;
+}
 
-function CommentList() {
+function CommentList({ post }: CommentListProps) {
   return (
     <div className={styles.comments__list}>
-      {COMMENTS?.map((comment) => (
-        <div key={comment.id} className={styles.commentBox}>
-          <div className={styles.profileBox}>
-            <div className={styles.email}>{comment?.email}</div>
-            <div className={styles.date}>{comment?.createdAt}</div>
-            <div className={styles.delete}>삭제</div>
+      {post?.comments
+        ?.slice(0)
+        ?.reverse()
+        .map((comment) => (
+          <div key={comment.createdAt} className={styles.commentBox}>
+            <div className={styles.profileBox}>
+              <div className={styles.email}>{comment?.email}</div>
+              <div className={styles.date}>{comment?.createdAt}</div>
+              <div className={styles.delete}>삭제</div>
+            </div>
+            <div className={styles.commentText}>{comment?.content}</div>
           </div>
-          <div className={styles.commentText}>{comment?.content}</div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }
 
 interface CommentsProps {
   post: PostProps;
+  getPost: (id: string) => Promise<void>;
 }
 
-export default function Comments({ post }: CommentsProps) {
+export default function Comments({ post, getPost }: CommentsProps) {
   const user = useRecoilValue(currentUserObj);
 
   return (
     <div className={styles.comments}>
-      {user && <CommentForm post={post} user={user} />}
-      <CommentList />
+      {user && <CommentForm post={post} user={user} getPost={getPost} />}
+      <CommentList post={post} />
     </div>
   );
 }
