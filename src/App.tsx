@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className={theme === "light" ? "white" : "dark"}>
-      <ToastContainer />
+      <ToastContainer autoClose={500} hideProgressBar newestOnTop />
       {initialAuthPass ? <Router /> : <Loading />}
     </div>
   );

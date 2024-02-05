@@ -101,7 +101,7 @@
         cursor: pointer;
         &:hover,
         &:focus {
-          color: black;
+          color: var(--text);
         }
       }
     }
@@ -229,6 +229,7 @@
     border: 1px solid lightgray;
     outline: none;
     background-color: var(--bg);
+    color: var(--text);
   }
   & textarea {
     padding: 10px;
@@ -239,6 +240,7 @@
     min-height: 400px;
     line-height: 1.5;
     background-color: var(--bg);
+    color: var(--text);
   }
   .summary {
     min-height: 100px;
