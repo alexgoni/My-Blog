@@ -215,7 +215,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: $mainGap 0;
+    margin: 15px 0;
     width: 100%;
   }
   & label {
@@ -245,16 +245,23 @@
   .summary {
     min-height: 100px;
   }
-  .form__submitBtn {
+  .form__btnContainer {
+    gap: 10px;
+    margin: 15px 0;
     width: 100%;
     height: 48px;
-    margin: 0 auto;
-    padding: 10px;
-    background-color: $mainColor;
-    &:hover,
-    &:focus {
-      background-color: $darkColor;
-      cursor: pointer;
+    .form__submitBtn {
+      float: right;
+      width: 15%;
+      height: 48px;
+      margin: 0 auto;
+      padding: 10px;
+      background-color: $mainColor;
+      &:hover,
+      &:focus {
+        background-color: $darkColor;
+        cursor: pointer;
+      }
     }
   }
   select {

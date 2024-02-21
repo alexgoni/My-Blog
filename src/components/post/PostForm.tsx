@@ -106,9 +106,6 @@ export default function PostForm() {
 
   useEffect(() => {
     getCategoryList();
-  }, []);
-
-  useEffect(() => {
     if (params?.id) getPost(params?.id);
   }, []);
 
@@ -169,7 +166,7 @@ export default function PostForm() {
           required
         />
       </div>
-      <div className={styles.form__block}>
+      <div className={styles.form__btnContainer}>
         <input
           type="submit"
           value={post ? "수정" : "제출"}
