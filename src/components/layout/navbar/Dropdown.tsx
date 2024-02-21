@@ -9,19 +9,17 @@ interface DropdownProps {
   isAuthenticated: boolean;
   isUserAdmin: boolean;
   logoutHandler: () => Promise<void>;
+  toggleTheme: () => void;
 }
 
 export default function Dropdown({
   isAuthenticated,
   isUserAdmin,
   logoutHandler,
+  toggleTheme,
 }: DropdownProps) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [theme, setTheme] = useRecoilState(themeState);
-
-  const toggleTheme = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);

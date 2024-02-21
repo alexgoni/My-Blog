@@ -9,6 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
 import { themeState } from "recoil/theme";
+import toggleEditorTheme from "module/toggleEditorTheme";
 
 interface NavbarProps {
   isMobileWidth: boolean;
@@ -22,6 +23,8 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
   const toggleTheme = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
     window.localStorage.setItem("theme", theme === "light" ? "dark" : "light");
+
+    toggleEditorTheme();
   };
 
   const logoutHandler = async () => {
@@ -40,6 +43,7 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
           isAuthenticated={!!user}
           isUserAdmin={isUserAdmin}
           logoutHandler={logoutHandler}
+          toggleTheme={toggleTheme}
         />
       ) : (
         <div className={styles.nav__tabList}>
