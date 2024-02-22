@@ -8,7 +8,7 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import { useRecoilValue } from "recoil";
 import { themeState } from "recoil/theme";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "styles/post.module.scss";
 import {
   addDoc,
@@ -20,10 +20,13 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "firebaseApp";
+import { db, storage } from "firebaseApp";
 import { PostProps } from "./PostList";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { HookCallback } from "@toast-ui/editor/types/editor";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
@@ -37,6 +40,23 @@ export default function PostForm() {
   const editorRef = useRef<Editor | null>(null);
   const navigate = useNavigate();
   const params = useParams();
+  const titleRef = useRef<string>(title);
+
+  useEffect(() => {
+    titleRef.current = title;
+  }, [title]);
+
+  const onUploadImage = async (blob: any, callback: HookCallback) => {
+    if (!titleRef.current.trim()) {
+      alert("제목을 작성하세요.");
+      return;
+    }
+    const storageRef = ref(storage, `postsImg/${titleRef.current}/${uuidv4()}`);
+    await uploadBytes(storageRef, blob);
+
+    const imgUrl = await getDownloadURL(storageRef);
+    callback(imgUrl);
+  };
 
   const getCategoryList = async () => {
     const cateogriesRef = collection(db, "category");
@@ -109,6 +129,12 @@ export default function PostForm() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!content.trim()) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
     try {
       if (post && post.id) {
         await updatePost(post.id);
@@ -188,6 +214,9 @@ export default function PostForm() {
             plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
             theme={theme}
             onChange={onEditorChange}
+            hooks={{
+              addImageBlobHook: onUploadImage,
+            }}
           />
         </div>
         <div className={styles.form__btnContainer}>
