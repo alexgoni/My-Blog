@@ -8,7 +8,7 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import { useRecoilValue } from "recoil";
 import { themeState } from "recoil/theme";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "styles/post.module.scss";
 import {
   addDoc,
@@ -48,7 +48,7 @@ export default function PostForm() {
 
   const onUploadImage = async (blob: any, callback: HookCallback) => {
     if (!titleRef.current.trim()) {
-      alert("제목을 작성하세요.");
+      toast.error("제목을 작성하세요.");
       return;
     }
     const storageRef = ref(storage, `postsImg/${titleRef.current}/${uuidv4()}`);
@@ -131,7 +131,7 @@ export default function PostForm() {
     e.preventDefault();
 
     if (!content.trim()) {
-      alert("내용을 입력해주세요.");
+      toast.error("내용을 입력해주세요.");
       return;
     }
 
