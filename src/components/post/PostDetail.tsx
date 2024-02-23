@@ -1,3 +1,5 @@
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -63,9 +65,7 @@ export default function PostDetail() {
               <h1>Introduction</h1>
               {post?.summary}
             </div>
-            <div className={styles.content}>
-              <p>{post?.content}</p>
-            </div>
+            <Viewer initialValue={post?.content} />
             <Comments post={post} getPost={getPost} />
           </div>
         </>
