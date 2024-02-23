@@ -30,6 +30,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
+  const [keyWords, setKeyWords] = useState<string[]>([]);
   const [categoryList, setCategoryList] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("Free");
   const [summary, setSummary] = useState<string>("");
@@ -44,6 +45,8 @@ export default function PostForm() {
 
   useEffect(() => {
     titleRef.current = title;
+
+    setKeyWords(title.split(/\s+/));
   }, [title]);
 
   const onUploadImage = async (blob: any, callback: HookCallback) => {
@@ -103,6 +106,7 @@ export default function PostForm() {
         second: "2-digit",
       }),
       category,
+      keyWords,
     });
 
     toast.success("게시글을 생성했습니다.");
@@ -121,6 +125,7 @@ export default function PostForm() {
         second: "2-digit",
       }),
       category,
+      keyWords,
     });
 
     toast.success("게시글을 수정했습니다.");

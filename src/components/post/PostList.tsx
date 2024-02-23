@@ -1,10 +1,12 @@
 import {
   collection,
   doc,
+  endAt,
   getDoc,
   getDocs,
   orderBy,
   query,
+  startAt,
   where,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
@@ -12,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { CommentsInterface } from "./Comments";
+import { toast } from "react-toastify";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -69,6 +72,7 @@ export interface PostProps {
   updatedAt?: string;
   category: string;
   comments?: CommentsInterface[];
+  keyWords: string[];
 }
 
 export function HomePostList() {
@@ -142,6 +146,51 @@ export function CategoryPostList() {
   return (
     <>
       <CategoryInfo category={category} />
+      <div className={styles.postList}>
+        {posts?.length > 0 ? (
+          posts?.map((postData) => (
+            <PostBlock key={postData?.id} data={postData} />
+          ))
+        ) : (
+          <div className={styles.noPost}>게시글이 없습니다.</div>
+        )}
+      </div>
+    </>
+  );
+}
+
+interface SearchPostListProps {
+  searchWord: string;
+}
+
+export function SearchPostList({ searchWord }: SearchPostListProps) {
+  const [posts, setPosts] = useState<PostProps[]>([]);
+
+  useEffect(() => {
+    const getPosts = async (searchWord: string) => {
+      try {
+        const postsRef = collection(db, "posts");
+        const postsQuery = query(
+          postsRef,
+          where("keyWords", "array-contains-any", searchWord.split(/\s+/)),
+          orderBy("createdAt", "desc")
+        );
+        const datas = await getDocs(postsQuery);
+
+        setPosts(
+          datas.docs.map((doc) => ({ id: doc.id, ...doc.data() } as PostProps))
+        );
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.code);
+      }
+    };
+
+    getPosts(searchWord);
+  }, [searchWord]);
+
+  return (
+    <>
       <div className={styles.postList}>
         {posts?.length > 0 ? (
           posts?.map((postData) => (

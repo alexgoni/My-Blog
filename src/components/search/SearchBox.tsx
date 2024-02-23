@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import styles from "styles/search.module.scss";
 import { CiSearch } from "react-icons/ci";
 
-export default function SearchBox() {
-  const [searchWord, setSearchWord] = useState<string>("");
-
+interface SearchBoxProps {
+  searchWord: string;
+  setSearchWord: (newValue: string) => void;
+}
+export default function SearchBox({
+  searchWord,
+  setSearchWord,
+}: SearchBoxProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchWord(value);

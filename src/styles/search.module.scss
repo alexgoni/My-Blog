@@ -4,10 +4,11 @@
   display: flex;
   justify-content: center;
   position: relative;
+  margin-top: 50px;
+  margin-bottom: 60px;
   .searchBox {
     color: var(--text);
     width: 60%;
-    margin-top: 50px;
     height: 42px;
     border-radius: 12px;
     outline: none;
@@ -19,7 +20,7 @@
   }
   .icon {
     position: absolute;
-    top: calc(60px + 2.5px);
+    top: 12.5px;
     right: calc(20% + 10px);
     color: gray;
   }
