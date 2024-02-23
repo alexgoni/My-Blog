@@ -14,6 +14,8 @@ $white: (
   "postBlock": white,
   "detailBG": white,
   "categoryList": #f7fafc,
+  "searchBox": white,
+  "boxShadow": rgba(0, 0, 0, 0.1),
 );
 $dark: (
   "bg": #242629,
@@ -26,4 +28,6 @@ $dark: (
   "postBlock": rgb(19, 19, 19),
   "detailBG": rgb(19, 19, 19),
   "categoryList": rgb(19, 19, 19),
+  "searchBox": #34373d,
+  "boxShadow": rgba(0, 0, 0, 1),
 );

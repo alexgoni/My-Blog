@@ -37,7 +37,9 @@ export default function Dropdown({
       </div>
       {isDropdownOpen && (
         <ul className={styles.dropdown__contents}>
-          <li>Search</li>
+          <li>
+            <Link to="/search">Search</Link>
+          </li>
           <li onClick={toggleTheme}>
             {theme === "light" ? <span>Light</span> : <span>Dark</span>}
           </li>

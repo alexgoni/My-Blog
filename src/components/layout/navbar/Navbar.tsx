@@ -71,9 +71,9 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
               <BsMoonFill size={20} />
             )}
           </div>
-          <div className={styles.search}>
+          <Link to="/search" className={styles.search}>
             <CiSearch size={20} />
-          </div>
+          </Link>
         </div>
       )}
     </nav>

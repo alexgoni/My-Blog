@@ -1,0 +1,37 @@
+@import "variables.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .searchBox {
+    color: var(--text);
+    width: 60%;
+    margin-top: 50px;
+    height: 42px;
+    border-radius: 12px;
+    outline: none;
+    border: 1px solid #c6c6c6;
+    text-indent: 10px;
+    font-size: 18px;
+    background-color: var(--searchBox);
+    box-shadow: 0 2px 5px var(--boxShadow);
+  }
+  .icon {
+    position: absolute;
+    top: calc(60px + 2.5px);
+    right: calc(20% + 10px);
+    color: gray;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    .searchBox {
+      width: 100%;
+    }
+    .icon {
+      right: calc(10px);
+    }
+  }
+}

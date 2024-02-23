@@ -4,13 +4,13 @@ import Write from "pages/post/write";
 import Edit from "pages/post/edit";
 import Post from "pages/post/post";
 import CategoryList from "pages/category/category_list";
-import Search from "pages/search";
 import Category from "pages/category/category";
 import Login from "pages/user/login";
 import Register from "pages/user/register";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState, currentUserObj } from "recoil/user";
 import CategoryAdminPage from "pages/category/category_admin";
+import Search from "pages/search";
 
 export default function Router() {
   const user = useRecoilValue(currentUserObj);
