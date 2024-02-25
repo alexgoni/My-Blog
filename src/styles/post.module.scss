@@ -275,3 +275,13 @@
     color: var(--text);
   }
 }
+
+/* post form */
+
+.paginationContainer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

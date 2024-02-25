@@ -1,12 +1,10 @@
 import {
   collection,
   doc,
-  endAt,
   getDoc,
   getDocs,
   orderBy,
   query,
-  startAt,
   where,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
@@ -15,6 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { CommentsInterface } from "./Comments";
 import { toast } from "react-toastify";
+import PaginationComponent from "./pagination";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -107,6 +106,7 @@ export function HomePostList() {
           <div className={styles.noPost}>게시글이 없습니다.</div>
         )}
       </div>
+      <PaginationComponent />
     </>
   );
 }
