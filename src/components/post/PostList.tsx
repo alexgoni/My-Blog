@@ -1,7 +1,5 @@
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -78,21 +76,22 @@ export function HomePostList() {
   const postsRef = collection(db, "posts");
 
   // 프로젝트 커질 시 url query나 무한 스크롤 방법으로 변환
-  const getAllPosts = async () => {
+  const getPageFirstDoc = async (page: number) => {
     const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
-    return await getDocs(postsQuery);
+    const datas = await getDocs(postsQuery);
+    return datas.docs[(page - 1) * POSTS_PER_PAGE];
   };
 
   const getPosts = async (page: number) => {
     setPosts([]);
 
-    const allDatas = await getAllPosts();
-    const startAfterDoc = allDatas.docs[(page - 1) * POSTS_PER_PAGE];
+    const pageFirstDoc = await getPageFirstDoc(page);
+    if (!pageFirstDoc) return;
 
     const postsQuery = query(
       postsRef,
       orderBy("createdAt", "desc"),
-      startAt(startAfterDoc),
+      startAt(pageFirstDoc),
       limit(POSTS_PER_PAGE)
     );
     const datas = await getDocs(postsQuery);
@@ -120,20 +119,22 @@ export function HomePostList() {
           <div className={styles.noPost}>게시글이 없습니다.</div>
         )}
       </div>
-      {posts && (
+      {posts?.length > 0 ? (
         <PaginationComponent
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
-      )}
+      ) : null}
     </>
   );
 }
 
 export function CategoryPostList() {
   const [posts, setPosts] = useState<PostProps[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [category, setCategory] = useState<string | null>(null);
   const params = useParams();
+  const postsRef = collection(db, "posts");
 
   useEffect(() => {
     if (params?.category) {
@@ -141,26 +142,41 @@ export function CategoryPostList() {
     }
   }, []);
 
-  const getPosts = async () => {
-    setPosts([]);
-
-    const postsRef = collection(db, "posts");
+  const getPageFirstDoc = async (page: number) => {
     const postsQuery = query(
       postsRef,
       where("category", "==", category),
       orderBy("createdAt", "desc")
     );
     const datas = await getDocs(postsQuery);
+    return datas.docs[(page - 1) * POSTS_PER_PAGE];
+  };
 
-    datas?.forEach((doc) => {
-      const dataObj = { id: doc.id, ...doc.data() };
-      setPosts((prev) => [...prev, dataObj as PostProps]);
-    });
+  const getPosts = async (page: number) => {
+    setPosts([]);
+
+    const pageFirstDoc = await getPageFirstDoc(page);
+    if (!pageFirstDoc) return;
+
+    const postsQuery = query(
+      postsRef,
+      where("category", "==", category),
+      orderBy("createdAt", "desc"),
+      startAt(pageFirstDoc),
+      limit(POSTS_PER_PAGE)
+    );
+    const datas = await getDocs(postsQuery);
+    const newPosts = datas.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as PostProps[];
+
+    setPosts(newPosts);
   };
 
   useEffect(() => {
-    getPosts();
-  }, [category]);
+    getPosts(currentPage);
+  }, [currentPage, category]);
 
   return (
     <>
@@ -174,6 +190,12 @@ export function CategoryPostList() {
           <div className={styles.noPost}>게시글이 없습니다.</div>
         )}
       </div>
+      {posts?.length > 0 ? (
+        <PaginationComponent
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
     </>
   );
 }
