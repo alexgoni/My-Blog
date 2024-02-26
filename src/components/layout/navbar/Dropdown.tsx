@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { themeState } from "recoil/theme";
 import styles from "styles/layout.module.scss";
 
@@ -19,7 +19,7 @@ export default function Dropdown({
   toggleTheme,
 }: DropdownProps) {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [theme, setTheme] = useRecoilState(themeState);
+  const theme = useRecoilValue(themeState);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);

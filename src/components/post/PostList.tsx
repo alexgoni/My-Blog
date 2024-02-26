@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { CommentsInterface } from "./Comments";
 import { toast } from "react-toastify";
-import PaginationComponent from "./pagination";
+import PaginationComponent from "./Pagination";
 import { getDocumentCount } from "module/getDocumentCount";
 
 interface CategoryInfoProps {
