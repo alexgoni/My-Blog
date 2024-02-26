@@ -50,6 +50,7 @@
     font-size: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-bottom: 5px;
   }
   .summary {
     color: gray;
@@ -279,9 +280,7 @@
 /* post form */
 
 .paginationContainer {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
   display: flex;
   justify-content: center;
+  margin: 60px 0 30px 0;
 }

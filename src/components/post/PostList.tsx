@@ -3,8 +3,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
+  startAt,
   where,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
@@ -14,6 +16,7 @@ import styles from "styles/post.module.scss";
 import { CommentsInterface } from "./Comments";
 import { toast } from "react-toastify";
 import PaginationComponent from "./pagination";
+import { getDocumentCount } from "module/getDocumentCount";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -23,21 +26,14 @@ function CategoryInfo({ category }: CategoryInfoProps) {
   const [documentCount, setDocumentCount] = useState<number>(0);
   const params = useParams();
 
-  const getDocumentCount = async () => {
-    if (params?.id) {
-      const docRef = doc(db, "category", params?.id);
-      const docSnap = await getDoc(docRef);
-      setDocumentCount(docSnap.data()?.postNum);
-    } else {
-      const collectionRef = collection(db, "posts");
-      const querySnapshot = await getDocs(collectionRef);
-      setDocumentCount(querySnapshot.size);
-    }
+  const updatePostsNum = async () => {
+    const count = await getDocumentCount(db, params);
+    setDocumentCount(count);
   };
 
   useEffect(() => {
-    getDocumentCount();
-  }, [category]);
+    updatePostsNum();
+  }, [params]);
 
   return (
     <>
@@ -74,25 +70,43 @@ export interface PostProps {
   keyWords: string[];
 }
 
+const POSTS_PER_PAGE = 10;
+
 export function HomePostList() {
   const [posts, setPosts] = useState<PostProps[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const postsRef = collection(db, "posts");
 
-  const getPosts = async () => {
+  // 프로젝트 커질 시 url query나 무한 스크롤 방법으로 변환
+  const getAllPosts = async () => {
+    const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
+    return await getDocs(postsQuery);
+  };
+
+  const getPosts = async (page: number) => {
     setPosts([]);
 
-    const postsRef = collection(db, "posts");
-    const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
-    const datas = await getDocs(postsQuery);
+    const allDatas = await getAllPosts();
+    const startAfterDoc = allDatas.docs[(page - 1) * POSTS_PER_PAGE];
 
-    datas?.forEach((doc) => {
-      const dataObj = { id: doc.id, ...doc.data() };
-      setPosts((prev) => [...prev, dataObj as PostProps]);
-    });
+    const postsQuery = query(
+      postsRef,
+      orderBy("createdAt", "desc"),
+      startAt(startAfterDoc),
+      limit(POSTS_PER_PAGE)
+    );
+    const datas = await getDocs(postsQuery);
+    const newPosts = datas.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as PostProps[];
+
+    setPosts(newPosts);
   };
 
   useEffect(() => {
-    getPosts();
-  }, []);
+    getPosts(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -106,7 +120,12 @@ export function HomePostList() {
           <div className={styles.noPost}>게시글이 없습니다.</div>
         )}
       </div>
-      <PaginationComponent />
+      {posts && (
+        <PaginationComponent
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </>
   );
 }
