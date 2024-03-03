@@ -91,8 +91,8 @@ export default function PostForm() {
   };
 
   const onEditorChange = () => {
-    // const markdown = editorRef.current?.getInstance().getMarkdown();
-    // if (markdown) setContent(markdown);
+    const markdown = editorRef.current?.getInstance().getMarkdown();
+    if (markdown) setContent(markdown);
   };
 
   const createPost = async () => {
