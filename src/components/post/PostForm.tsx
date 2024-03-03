@@ -163,13 +163,11 @@ export default function PostForm() {
     if (!post) return;
     setTitle(post?.title);
     setSummary(post?.summary);
-    setContent(post?.content);
     setCategory(post?.category);
-  }, [post]);
+    setContent(post?.content);
 
-  useEffect(() => {
-    editorRef.current?.getInstance().setMarkdown(content);
-  }, [content]);
+    editorRef.current?.getInstance().setMarkdown(post?.content);
+  }, [post]);
 
   return (
     <>
