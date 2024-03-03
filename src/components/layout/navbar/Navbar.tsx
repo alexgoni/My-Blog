@@ -24,7 +24,7 @@ export default function Navbar({ isMobileWidth }: NavbarProps) {
     theme === "light" ? setTheme("dark") : setTheme("light");
     window.localStorage.setItem("theme", theme === "light" ? "dark" : "light");
 
-    toggleEditorTheme();
+    toggleEditorTheme(theme);
   };
 
   const logoutHandler = async () => {

@@ -11,10 +11,14 @@ import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
 import Loading from "components/layout/Loading";
+import { themeState } from "recoil/theme";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import Prism from "prismjs";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostProps | null>(null);
   const isUserAdmin = useRecoilValue(isUserAdminState);
+  const theme = useRecoilValue(themeState);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -65,7 +69,11 @@ export default function PostDetail() {
               <h1>Introduction</h1>
               {post?.summary}
             </div>
-            <Viewer initialValue={post?.content} />
+            <Viewer
+              initialValue={post?.content}
+              theme={theme}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+            />
             <Comments post={post} getPost={getPost} />
           </div>
         </>

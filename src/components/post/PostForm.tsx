@@ -91,8 +91,8 @@ export default function PostForm() {
   };
 
   const onEditorChange = () => {
-    const markdown = editorRef.current?.getInstance().getMarkdown();
-    if (markdown) setContent(markdown);
+    // const markdown = editorRef.current?.getInstance().getMarkdown();
+    // if (markdown) setContent(markdown);
   };
 
   const createPost = async () => {
@@ -104,6 +104,7 @@ export default function PostForm() {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
+        hour12: true,
       }),
       category,
       keyWords,
@@ -222,6 +223,7 @@ export default function PostForm() {
             hooks={{
               addImageBlobHook: onUploadImage,
             }}
+            autofocus={false}
           />
         </div>
         <div className={styles.form__btnContainer}>
