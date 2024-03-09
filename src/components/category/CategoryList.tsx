@@ -22,7 +22,7 @@ interface CategoryBlockProps {
 function CategoryBlock({ data }: CategoryBlockProps) {
   return (
     <Link
-      to={`/category/${data?.category}/${data?.id}`}
+      to={`/category/${encodeURIComponent(data?.category)}/${data?.id}`}
       className={styles.categoryBlock}
     >
       <img src={data?.imgUrl} alt="img" className={styles.categoryImg} />
