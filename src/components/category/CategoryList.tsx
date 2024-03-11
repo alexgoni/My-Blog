@@ -1,4 +1,5 @@
 import {
+  Timestamp,
   collection,
   doc,
   getDocs,
@@ -38,7 +39,7 @@ function CategoryBlock({ data }: CategoryBlockProps) {
 export interface CategoryProps {
   id: string;
   category: string;
-  createdAt: string;
+  createdAt: Timestamp;
   postNum: number;
   imgUrl: string;
 }

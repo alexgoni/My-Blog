@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
 import { db } from "firebaseApp";
-import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  arrayRemove,
+  arrayUnion,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useRecoilValue } from "recoil";
 import { UserObjType, currentUserObj } from "recoil/user";
 import { toast } from "react-toastify";
@@ -17,7 +23,7 @@ export interface CommentsInterface {
   content: string;
   uid: string;
   email: string;
-  createdAt: string;
+  createdAt: Timestamp;
 }
 
 function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
@@ -33,12 +39,7 @@ function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
           content: comment,
           uid: user.uid,
           email: user.email,
-          createdAt: new Date()?.toLocaleDateString("ko", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hourCycle: "h11",
-          }),
+          createdAt: new Date(),
         };
 
         await updateDoc(postRef, {
@@ -94,11 +95,18 @@ function CommentList({ post, user, getPost }: CommentLowerComponentProps) {
       {post?.comments
         ?.slice(0)
         ?.reverse()
-        .map((comment) => (
-          <div key={comment.createdAt} className={styles.commentBox}>
+        .map((comment, idx) => (
+          <div key={idx} className={styles.commentBox}>
             <div className={styles.profileBox}>
               <div className={styles.email}>{comment?.email}</div>
-              <div className={styles.date}>{comment?.createdAt}</div>
+              <div className={styles.date}>
+                {comment?.createdAt.toDate().toLocaleDateString("ko", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hourCycle: "h11",
+                })}
+              </div>
               {user?.uid === comment.uid && (
                 <div
                   className={styles.delete}

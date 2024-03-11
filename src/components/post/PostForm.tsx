@@ -11,6 +11,7 @@ import { themeState } from "recoil/theme";
 import { useEffect, useRef, useState } from "react";
 import styles from "styles/post.module.scss";
 import {
+  Timestamp,
   addDoc,
   collection,
   doc,
@@ -100,12 +101,7 @@ export default function PostForm() {
       title,
       summary,
       content,
-      createdAt: new Date()?.toLocaleDateString("ko", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h11",
-      }),
+      createdAt: new Date(),
       category,
       keyWords,
     });
@@ -116,16 +112,12 @@ export default function PostForm() {
 
   const updatePost = async (postId: string) => {
     const postRef = doc(db, "posts", postId);
+
     await updateDoc(postRef, {
       title,
       summary,
       content,
-      updatedAt: new Date()?.toLocaleDateString("ko", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h11",
-      }),
+      updatedAt: new Date(),
       category,
       keyWords,
     });

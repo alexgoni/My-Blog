@@ -7,7 +7,7 @@ import { isUserAdminState } from "recoil/user";
 import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
 import { db } from "firebaseApp";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { Timestamp, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
 import Loading from "components/layout/Loading";
@@ -52,7 +52,14 @@ export default function PostDetail() {
             <div className={styles.info}>
               <div>
                 <span className={styles.category}>{post?.category}</span>
-                <span className={styles.date}>{post?.createdAt}</span>
+                <span className={styles.date}>
+                  {post?.createdAt.toDate().toLocaleDateString("ko", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hourCycle: "h11",
+                  })}
+                </span>
               </div>
               {isUserAdmin && (
                 <div className={styles.utils}>

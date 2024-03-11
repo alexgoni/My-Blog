@@ -1,4 +1,5 @@
 import {
+  Timestamp,
   collection,
   getDocs,
   limit,
@@ -61,8 +62,8 @@ export interface PostProps {
   title: string;
   summary: string;
   content: string;
-  createdAt: string;
-  updatedAt?: string;
+  createdAt: Timestamp;
+  updatedAt?: Timestamp;
   category: string;
   comments?: CommentsInterface[];
   keyWords: string[];

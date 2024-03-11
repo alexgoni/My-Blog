@@ -106,12 +106,7 @@ function CategoryForm() {
     await addDoc(collection(db, "category"), {
       category: categoryName,
       postNum: 0,
-      createdAt: new Date()?.toLocaleDateString("ko", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h11",
-      }),
+      createdAt: new Date(),
       imgUrl,
     });
   };
