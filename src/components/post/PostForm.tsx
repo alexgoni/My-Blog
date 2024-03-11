@@ -56,6 +56,8 @@ export default function PostForm() {
       return;
     }
     const storageRef = ref(storage, `postsImg/${titleRef.current}/${uuidv4()}`);
+    console.log(storageRef);
+    console.log(storageRef.fullPath);
     await uploadBytes(storageRef, blob);
 
     const imgUrl = await getDownloadURL(storageRef);

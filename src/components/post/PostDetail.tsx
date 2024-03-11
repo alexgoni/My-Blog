@@ -6,14 +6,15 @@ import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import styles from "styles/post.module.scss";
 import { PostProps } from "./PostList";
-import { db } from "firebaseApp";
-import { Timestamp, deleteDoc, doc, getDoc } from "firebase/firestore";
+import { db, storage } from "firebaseApp";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
 import Loading from "components/layout/Loading";
 import { themeState } from "recoil/theme";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
+import { deleteObject, listAll, ref } from "firebase/storage";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostProps | null>(null);
@@ -33,6 +34,10 @@ export default function PostDetail() {
     const confirm = window.confirm("해당 게시글을 삭제하시겠습니까?");
     if (confirm && post && post.id) {
       await deleteDoc(doc(db, "posts", post.id));
+
+      const storageRef = ref(storage, `postsImg/${post?.title}`);
+      const files = await listAll(storageRef);
+      await Promise.all(files.items.map((fileRef) => deleteObject(fileRef)));
 
       toast.success("게시글을 삭제했습니다.");
       navigate("/");
@@ -76,11 +81,14 @@ export default function PostDetail() {
               <h1>Introduction</h1>
               {post?.summary}
             </div>
-            <Viewer
-              initialValue={post?.content}
-              theme={theme}
-              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-            />
+            <div className={styles.viewerContainer}>
+              <Viewer
+                initialValue={post?.content}
+                theme={theme}
+                plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+              />
+            </div>
+
             <Comments post={post} getPost={getPost} />
           </div>
         </>
