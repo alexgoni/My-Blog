@@ -13,8 +13,8 @@ import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { toast } from "react-toastify";
 import PaginationComponent from "./Pagination";
-import { getDocumentCount } from "module/getDocumentCount";
 import { PostInterface } from "models/post";
+import { getDocumentCount } from "modules/utils/getDocumentCount";
 
 interface CategoryInfoProps {
   category?: string | null;

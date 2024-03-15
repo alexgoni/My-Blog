@@ -22,7 +22,7 @@
     "pages/*": ["pages/*"],
     "components/*": ["components/*"],
     "styles/*": ["styles/*"],
-    "module/*": ["module/*"],
+    "modules/*": ["modules/*"],
     "firebaseApp/*": ["firebaseApp/*"],
     "recoil/*": ["recoil/*"],
     "models/*": ["models/*"]

@@ -1,5 +1,4 @@
 import { Editor } from "@toast-ui/react-editor";
-import { useMobileDetector } from "module/useMobileDetector";
 import "prismjs/themes/prism.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css";
@@ -11,7 +10,6 @@ import { themeState } from "recoil/theme";
 import { useEffect, useRef, useState } from "react";
 import styles from "styles/post.module.scss";
 import {
-  Timestamp,
   addDoc,
   collection,
   doc,
@@ -28,6 +26,7 @@ import { HookCallback } from "@toast-ui/editor/types/editor";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { PostInterface } from "models/post";
+import { useMobileDetector } from "modules/utils/useMobileDetector";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");

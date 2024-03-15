@@ -9,7 +9,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
 import { themeState } from "recoil/theme";
-import toggleEditorTheme from "module/toggleEditorTheme";
+import toggleEditorTheme from "modules/utils/toggleEditorTheme";
 
 interface NavbarProps {
   isMobileWidth: boolean;
