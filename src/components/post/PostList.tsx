@@ -1,5 +1,4 @@
 import {
-  Timestamp,
   collection,
   getDocs,
   limit,
@@ -12,10 +11,10 @@ import { db } from "firebaseApp";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
-import { CommentsInterface } from "./Comments";
 import { toast } from "react-toastify";
 import PaginationComponent from "./Pagination";
 import { getDocumentCount } from "module/getDocumentCount";
+import { PostInterface } from "models/post";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -45,7 +44,7 @@ function CategoryInfo({ category }: CategoryInfoProps) {
 }
 
 interface PostBlockProps {
-  data: PostProps;
+  data: PostInterface;
 }
 
 function PostBlock({ data }: PostBlockProps) {
@@ -57,22 +56,10 @@ function PostBlock({ data }: PostBlockProps) {
   );
 }
 
-export interface PostProps {
-  id?: string;
-  title: string;
-  summary: string;
-  content: string;
-  createdAt: Timestamp;
-  updatedAt?: Timestamp;
-  category: string;
-  comments?: CommentsInterface[];
-  keyWords: string[];
-}
-
 const POSTS_PER_PAGE = 10;
 
 export function HomePostList() {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postsRef = collection(db, "posts");
 
@@ -99,7 +86,7 @@ export function HomePostList() {
     const newPosts = datas.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    })) as PostProps[];
+    })) as PostInterface[];
 
     setPosts(newPosts);
   };
@@ -131,7 +118,7 @@ export function HomePostList() {
 }
 
 export function CategoryPostList() {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [category, setCategory] = useState<string | null>(null);
   const params = useParams();
@@ -170,7 +157,7 @@ export function CategoryPostList() {
     const newPosts = datas.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    })) as PostProps[];
+    })) as PostInterface[];
 
     setPosts(newPosts);
   };
@@ -206,7 +193,7 @@ interface SearchPostListProps {
 }
 
 export function SearchPostList({ searchWord }: SearchPostListProps) {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   useEffect(() => {
     const getPosts = async (searchWord: string) => {
@@ -220,7 +207,9 @@ export function SearchPostList({ searchWord }: SearchPostListProps) {
         const datas = await getDocs(postsQuery);
 
         setPosts(
-          datas.docs.map((doc) => ({ id: doc.id, ...doc.data() } as PostProps))
+          datas.docs.map(
+            (doc) => ({ id: doc.id, ...doc.data() } as PostInterface)
+          )
         );
       } catch (error: any) {
         console.log(error);

@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import styles from "styles/post.module.scss";
-import { PostProps } from "./PostList";
 import { db, storage } from "firebaseApp";
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -15,9 +14,10 @@ import { themeState } from "recoil/theme";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import { deleteObject, listAll, ref } from "firebase/storage";
+import { PostInterface } from "models/post";
 
 export default function PostDetail() {
-  const [post, setPost] = useState<PostProps | null>(null);
+  const [post, setPost] = useState<PostInterface | null>(null);
   const isUserAdmin = useRecoilValue(isUserAdminState);
   const theme = useRecoilValue(themeState);
   const params = useParams();
@@ -27,7 +27,7 @@ export default function PostDetail() {
     const docRef = doc(db, "posts", id);
     const docSnap = await getDoc(docRef);
 
-    setPost({ id: docSnap.id, ...(docSnap.data() as PostProps) });
+    setPost({ id: docSnap.id, ...(docSnap.data() as PostInterface) });
   };
 
   const handleDelete = async () => {

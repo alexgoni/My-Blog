@@ -22,12 +22,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "firebaseApp";
-import { PostProps } from "./PostList";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { HookCallback } from "@toast-ui/editor/types/editor";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import { PostInterface } from "models/post";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
@@ -36,7 +36,7 @@ export default function PostForm() {
   const [category, setCategory] = useState<string>("Free");
   const [summary, setSummary] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [post, setPost] = useState<PostProps | null>(null);
+  const [post, setPost] = useState<PostInterface | null>(null);
   const isMobileWidth = useMobileDetector();
   const theme = useRecoilValue(themeState);
   const editorRef = useRef<Editor | null>(null);
@@ -78,7 +78,7 @@ export default function PostForm() {
     const docRef = doc(db, "posts", id);
     const docSnap = await getDoc(docRef);
 
-    setPost({ id: docSnap.id, ...(docSnap.data() as PostProps) });
+    setPost({ id: docSnap.id, ...(docSnap.data() as PostInterface) });
   };
 
   const onChange = (

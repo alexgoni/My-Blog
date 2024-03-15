@@ -8,12 +8,12 @@ interface MainLayoutProps {
   children: ReactNode;
 }
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
 function MainLayout({ children }: MainLayoutProps) {
   return <div className={styles.main}>{children}</div>;
+}
+
+interface LayoutProps {
+  children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {

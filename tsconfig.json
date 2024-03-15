@@ -24,6 +24,7 @@
     "styles/*": ["styles/*"],
     "module/*": ["module/*"],
     "firebaseApp/*": ["firebaseApp/*"],
-    "recoil/*": ["recoil/*"]
+    "recoil/*": ["recoil/*"],
+    "models/*": ["models/*"]
   }
 }

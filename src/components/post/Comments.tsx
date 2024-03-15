@@ -1,29 +1,18 @@
 import React, { useState } from "react";
 import styles from "styles/post.module.scss";
-import { PostProps } from "./PostList";
+
 import { db } from "firebaseApp";
-import {
-  Timestamp,
-  arrayRemove,
-  arrayUnion,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useRecoilValue } from "recoil";
 import { UserObjType, currentUserObj } from "recoil/user";
 import { toast } from "react-toastify";
+import { CommentInterface } from "models/comment";
+import { PostInterface } from "models/post";
 
 interface CommentLowerComponentProps {
-  post: PostProps;
+  post: PostInterface;
   user: UserObjType;
   getPost: (id: string) => Promise<void>;
-}
-
-export interface CommentsInterface {
-  content: string;
-  uid: string;
-  email: string;
-  createdAt: Timestamp;
 }
 
 function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
@@ -77,7 +66,7 @@ function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
 }
 
 function CommentList({ post, user, getPost }: CommentLowerComponentProps) {
-  const handleDeleteComment = async (data: CommentsInterface) => {
+  const handleDeleteComment = async (data: CommentInterface) => {
     const confirm = window.confirm("해당 댓글을 삭제하시겠습니까?");
     if (confirm && post.id) {
       const postRef = doc(db, "posts", post.id);
@@ -124,7 +113,7 @@ function CommentList({ post, user, getPost }: CommentLowerComponentProps) {
 }
 
 interface CommentsProps {
-  post: PostProps;
+  post: PostInterface;
   getPost: (id: string) => Promise<void>;
 }
 
