@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { currentUserObj, isUserAdminState } from "recoil/user";
 
-export default function CheckingAuth() {
+export default function useCheckingAuth() {
   const auth = getAuth(app);
 
-  const initialAuthPass = IsInitialAuthPass(auth);
-  CheckIsUserAdmin(auth);
+  const initialAuthPass = useCheckInitialAuthPass(auth);
+  useCheckIsUserAdmin(auth);
 
   return { initialAuthPass };
 }
 
-function IsInitialAuthPass(auth: Auth): boolean {
+function useCheckInitialAuthPass(auth: Auth): boolean {
   const [initialAuthPass, setInitialAuthPass] = useState<boolean>(false);
   const setUser = useSetRecoilState(currentUserObj);
 
@@ -27,7 +27,7 @@ function IsInitialAuthPass(auth: Auth): boolean {
   return initialAuthPass;
 }
 
-function CheckIsUserAdmin(auth: Auth) {
+function useCheckIsUserAdmin(auth: Auth) {
   const setIsUserAdmin = useSetRecoilState(isUserAdminState);
 
   useEffect(() => {

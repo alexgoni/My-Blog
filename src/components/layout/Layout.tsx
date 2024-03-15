@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import Navbar from "./navbar/Navbar";
 import Footer from "./Footer";
 import styles from "styles/layout.module.scss";
-import { useMobileDetector } from "modules/utils/useMobileDetector";
+import { useMobileDetector } from "modules/hooks/useMobileDetector";
 
 interface MainLayoutProps {
   children: ReactNode;

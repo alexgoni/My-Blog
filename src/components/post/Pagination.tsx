@@ -1,7 +1,7 @@
 import { Pagination, ThemeProvider, createTheme } from "@mui/material";
 import { db } from "firebaseApp";
 import { getDocumentCount } from "modules/utils/getDocumentCount";
-import { useMobileDetector } from "modules/utils/useMobileDetector";
+import { useMobileDetector } from "modules/hooks/useMobileDetector";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";

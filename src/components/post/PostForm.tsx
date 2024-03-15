@@ -26,7 +26,7 @@ import { HookCallback } from "@toast-ui/editor/types/editor";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { PostInterface } from "models/post";
-import { useMobileDetector } from "modules/utils/useMobileDetector";
+import { useMobileDetector } from "modules/hooks/useMobileDetector";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
