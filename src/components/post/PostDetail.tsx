@@ -86,6 +86,10 @@ export default function PostDetail() {
                 initialValue={post?.content}
                 theme={theme}
                 plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+                linkAttributes={{
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                }}
               />
             </div>
 
