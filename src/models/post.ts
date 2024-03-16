@@ -11,4 +11,5 @@ export interface PostInterface {
   category: string;
   comments?: CommentInterface[];
   keyWords: string[];
+  views: number;
 }

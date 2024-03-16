@@ -31,6 +31,7 @@ export default function useSubmitPost({
       createdAt: new Date(),
       category,
       keyWords,
+      views: 0,
     });
 
     toast.success("게시글을 생성했습니다.");

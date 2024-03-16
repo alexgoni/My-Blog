@@ -81,7 +81,8 @@
     opacity: 1;
     border: 0.5px solid $darkColor;
   }
-  &:hover {
+  &:hover,
+  &:focus {
     transform: scale(1.02);
     border-color: tomato;
     transition: all 0.1s ease-in-out;
@@ -105,19 +106,29 @@
     justify-content: space-between;
     padding-bottom: 10px;
     border-bottom: 1px solid lightgray;
-    .category {
-      background-color: $mainColor;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      margin-right: 10px;
-      color: black;
+    flex-wrap: wrap;
+    .infoLeft {
+      flex-grow: 1;
+      .category {
+        background-color: $mainColor;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        margin-right: 10px;
+        color: black;
+      }
+      .date {
+        color: gray;
+        font-size: 14px;
+      }
     }
-    .date {
+    .views {
+      font-size: 14px;
       color: gray;
-      font-size: 14px;
     }
+
     .utils {
+      margin-left: 5px;
       display: flex;
       gap: 5px;
       & a,
@@ -128,6 +139,12 @@
         &:hover,
         &:focus {
           color: var(--text);
+        }
+      }
+      .delete {
+        &:hover,
+        &:focus {
+          color: red;
         }
       }
     }

@@ -6,7 +6,13 @@ import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import styles from "styles/post.module.scss";
 import { db, storage } from "firebaseApp";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  getDoc,
+  increment,
+  updateDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
 import Loading from "components/layout/Loading";
@@ -15,6 +21,7 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import { deleteObject, listAll, ref } from "firebase/storage";
 import { PostInterface } from "models/post";
+import { useMobileDetector } from "modules/hooks/useMobileDetector";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostInterface | null>(null);
@@ -22,6 +29,15 @@ export default function PostDetail() {
   const theme = useRecoilValue(themeState);
   const params = useParams();
   const navigate = useNavigate();
+  const isMobileWidth = useMobileDetector();
+
+  const updateViews = async (id: string) => {
+    const docRef = doc(db, "posts", id);
+
+    await updateDoc(docRef, {
+      views: increment(1),
+    });
+  };
 
   const getPost = async (id: string) => {
     const docRef = doc(db, "posts", id);
@@ -45,7 +61,11 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
-    if (params?.id) getPost(params?.id);
+    (async () => {
+      if (!params?.id) return;
+      await updateViews(params?.id);
+      await getPost(params?.id);
+    })();
   }, []);
 
   return (
@@ -55,26 +75,31 @@ export default function PostDetail() {
           <div className={styles.postDetail}>
             <div className={styles.title}>{post?.title}</div>
             <div className={styles.info}>
-              <div>
+              <div className={styles.infoLeft}>
                 <span className={styles.category}>{post?.category}</span>
-                <span className={styles.date}>
-                  {post?.createdAt.toDate().toLocaleDateString("ko", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hourCycle: "h11",
-                  })}
-                </span>
-              </div>
-              {isUserAdmin && (
-                <div className={styles.utils}>
-                  <Link to={`/edit/${post?.id}`} className={styles.edit}>
-                    수정
-                  </Link>
-                  <span onClick={handleDelete} className={styles.delete}>
-                    삭제
+                {!isMobileWidth && (
+                  <span className={styles.date}>
+                    {post?.createdAt.toDate().toLocaleDateString("ko", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hourCycle: "h11",
+                    })}
                   </span>
-                </div>
+                )}
+              </div>
+              <div className={styles.views}>조회수 {post?.views}</div>
+              {isUserAdmin && (
+                <>
+                  <div className={styles.utils}>
+                    <Link to={`/edit/${post?.id}`} className={styles.edit}>
+                      수정
+                    </Link>
+                    <span onClick={handleDelete} className={styles.delete}>
+                      삭제
+                    </span>
+                  </div>
+                </>
               )}
             </div>
             <div className={styles.summary}>
