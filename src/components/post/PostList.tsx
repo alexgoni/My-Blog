@@ -11,11 +11,7 @@ import {
 } from "modules/hooks/useGetPosts";
 import useIntersection from "modules/hooks/useIntersection";
 
-interface CategoryInfoProps {
-  category?: string | null;
-}
-
-function CategoryInfo({ category }: CategoryInfoProps) {
+function CategoryInfo({ category }: { category?: string | null }) {
   const [documentCount, setDocumentCount] = useState<number>(0);
   const params = useParams();
 
@@ -38,11 +34,9 @@ function CategoryInfo({ category }: CategoryInfoProps) {
   );
 }
 
-interface PostBlockProps {
-  data: PostInterface;
-}
+memo(CategoryInfo);
 
-function PostBlock({ data }: PostBlockProps) {
+function PostBlock({ data }: { data: PostInterface }) {
   return (
     <Link to={`/post/${data?.id}`} className={styles.postBlock}>
       <h1 className={styles.title}>{data?.title}</h1>
@@ -125,11 +119,7 @@ export function CategoryPostList() {
   );
 }
 
-interface SearchPostListProps {
-  searchWord: string;
-}
-
-export function SearchPostList({ searchWord }: SearchPostListProps) {
+export function SearchPostList({ searchWord }: { searchWord: string }) {
   const posts = useGetSearchPosts(searchWord);
 
   return (

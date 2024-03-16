@@ -9,14 +9,14 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "firebaseApp";
+import { CategoryInterface } from "models/category";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import styles from "styles/category.module.scss";
-import { CategoryProps } from "./CategoryList";
 
 function CategoryList() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
 
   const getCategories = async () => {
     setCategories([]);
@@ -27,7 +27,7 @@ function CategoryList() {
 
     datas?.forEach((doc) => {
       const dataObj = { id: doc.id, ...doc.data() };
-      setCategories((prev) => [...prev, dataObj as CategoryProps]);
+      setCategories((prev) => [...prev, dataObj as CategoryInterface]);
     });
   };
 

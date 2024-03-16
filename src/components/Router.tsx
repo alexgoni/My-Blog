@@ -11,7 +11,6 @@ import { useRecoilValue } from "recoil";
 import { isUserAdminState, currentUserObj } from "recoil/user";
 import CategoryAdminPage from "pages/category/category_admin";
 import Search from "pages/search";
-import Pagination from "./Pagination";
 
 export default function Router() {
   const user = useRecoilValue(currentUserObj);
@@ -26,9 +25,6 @@ export default function Router() {
         <Route path="/search" element={<Search />} />
         <Route path="/post/:id" element={<Post />} />
         <Route path="/register" element={<Register />} />
-
-        <Route path="/pagination" element={<Pagination />} />
-
         <Route path="*" element={<Navigate replace to="/" />} />
         {!user && <Route path="/login" element={<Login />} />}
         {isUserAdmin && (

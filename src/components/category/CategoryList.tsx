@@ -15,9 +15,10 @@ import styles from "styles/category.module.scss";
 import { FiPlusCircle } from "react-icons/fi";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
+import { CategoryInterface } from "models/category";
 
 interface CategoryBlockProps {
-  data: CategoryProps;
+  data: CategoryInterface;
 }
 
 function CategoryBlock({ data }: CategoryBlockProps) {
@@ -36,16 +37,8 @@ function CategoryBlock({ data }: CategoryBlockProps) {
   );
 }
 
-export interface CategoryProps {
-  id: string;
-  category: string;
-  createdAt: Timestamp;
-  postNum: number;
-  imgUrl: string;
-}
-
 export default function CategoryList() {
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const isUserAdmin = useRecoilValue(isUserAdminState);
 
   const getCategories = async () => {
@@ -55,7 +48,7 @@ export default function CategoryList() {
 
     datas?.forEach((doc) => {
       const dataObj = { id: doc.id, ...doc.data() };
-      setCategories((prev) => [...prev, dataObj as CategoryProps]);
+      setCategories((prev) => [...prev, dataObj as CategoryInterface]);
     });
   };
 
@@ -101,6 +94,7 @@ export default function CategoryList() {
           <CategoryBlock key={categoryData?.id} data={categoryData} />
         ))}
       </div>
+      <div className={styles.sentinelRef}></div>
     </>
   );
 }
