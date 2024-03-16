@@ -4,19 +4,11 @@ import Footer from "./Footer";
 import styles from "styles/layout.module.scss";
 import { useMobileDetector } from "modules/hooks/useMobileDetector";
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-function MainLayout({ children }: MainLayoutProps) {
+function MainLayout({ children }: { children: ReactNode }) {
   return <div className={styles.main}>{children}</div>;
 }
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children }: { children: ReactNode }) {
   const isMobileWidth = useMobileDetector();
 
   return (

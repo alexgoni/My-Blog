@@ -1,27 +1,15 @@
-import {
-  Timestamp,
-  collection,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { db } from "firebaseApp";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "styles/category.module.scss";
 import { FiPlusCircle } from "react-icons/fi";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import { CategoryInterface } from "models/category";
+import {
+  useGetCategories,
+  useUpdatePostNum,
+} from "modules/hooks/useGetCategories";
 
-interface CategoryBlockProps {
-  data: CategoryInterface;
-}
-
-function CategoryBlock({ data }: CategoryBlockProps) {
+function CategoryBlock({ data }: { data: CategoryInterface }) {
   return (
     <Link
       to={`/category/${encodeURIComponent(data?.category)}/${data?.id}`}
@@ -38,48 +26,9 @@ function CategoryBlock({ data }: CategoryBlockProps) {
 }
 
 export default function CategoryList() {
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const isUserAdmin = useRecoilValue(isUserAdminState);
-
-  const getCategories = async () => {
-    const cateogriesRef = collection(db, "category");
-    const cateogriesQuery = query(cateogriesRef, orderBy("createdAt", "desc"));
-    const datas = await getDocs(cateogriesQuery);
-
-    datas?.forEach((doc) => {
-      const dataObj = { id: doc.id, ...doc.data() };
-      setCategories((prev) => [...prev, dataObj as CategoryInterface]);
-    });
-  };
-
-  const updatePostNum = async () => {
-    const collectionRef = collection(db, "posts");
-    for (const category of categories) {
-      let postsQuery = query(
-        collectionRef,
-        where("category", "==", category.category)
-      );
-      try {
-        const querySnapshot = await getDocs(postsQuery);
-        const postNum = querySnapshot.size;
-
-        const postRef = doc(db, "category", category.id);
-        await updateDoc(postRef, {
-          postNum,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  useEffect(() => {
-    updatePostNum();
-  }, [categories]);
+  const categories = useGetCategories();
+  useUpdatePostNum(categories);
 
   return (
     <>

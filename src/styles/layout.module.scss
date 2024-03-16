@@ -3,7 +3,7 @@
 /* navbar */
 
 .nav {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -163,7 +163,6 @@
   overflow: hidden;
   margin-bottom: 30px;
   position: relative;
-  margin-top: 90px;
   padding: 0 20px;
 }
 
@@ -171,7 +170,6 @@
   .main {
     // margin: 0 20px;
     padding: 0 30px;
-    margin-top: 70px;
   }
 }
 

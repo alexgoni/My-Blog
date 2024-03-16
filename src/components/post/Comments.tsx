@@ -9,13 +9,27 @@ import { toast } from "react-toastify";
 import { CommentInterface } from "models/comment";
 import { PostInterface } from "models/post";
 
-interface CommentLowerComponentProps {
+interface CommentProps {
   post: PostInterface;
   user: UserObjType;
   getPost: (id: string) => Promise<void>;
 }
 
-function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
+export default function Comments({
+  post,
+  getPost,
+}: Omit<CommentProps, "user">) {
+  const user = useRecoilValue(currentUserObj);
+
+  return (
+    <div className={styles.comments}>
+      {user && <CommentForm post={post} user={user} getPost={getPost} />}
+      <CommentList post={post} user={user} getPost={getPost} />
+    </div>
+  );
+}
+
+function CommentForm({ post, user, getPost }: CommentProps) {
   const [comment, setComment] = useState<string>("");
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +79,7 @@ function CommentForm({ post, user, getPost }: CommentLowerComponentProps) {
   );
 }
 
-function CommentList({ post, user, getPost }: CommentLowerComponentProps) {
+function CommentList({ post, user, getPost }: CommentProps) {
   const handleDeleteComment = async (data: CommentInterface) => {
     const confirm = window.confirm("해당 댓글을 삭제하시겠습니까?");
     if (confirm && post.id) {
@@ -108,22 +122,6 @@ function CommentList({ post, user, getPost }: CommentLowerComponentProps) {
             <div className={styles.commentText}>{comment?.content}</div>
           </div>
         ))}
-    </div>
-  );
-}
-
-interface CommentsProps {
-  post: PostInterface;
-  getPost: (id: string) => Promise<void>;
-}
-
-export default function Comments({ post, getPost }: CommentsProps) {
-  const user = useRecoilValue(currentUserObj);
-
-  return (
-    <div className={styles.comments}>
-      {user && <CommentForm post={post} user={user} getPost={getPost} />}
-      <CommentList post={post} user={user} getPost={getPost} />
     </div>
   );
 }

@@ -7,26 +7,13 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import Prism from "prismjs";
 import { useRecoilValue } from "recoil";
 import { themeState } from "recoil/theme";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "styles/post.module.scss";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  updateDoc,
-} from "firebase/firestore";
-import { db, storage } from "firebaseApp";
-import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
-import { HookCallback } from "@toast-ui/editor/types/editor";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { v4 as uuidv4 } from "uuid";
 import { PostInterface } from "models/post";
 import { useMobileDetector } from "modules/hooks/useMobileDetector";
+import useWritePost from "modules/hooks/useWritePost";
+import useSetPostForm from "modules/hooks/useSetPostForm";
+import useSubmitPost from "modules/hooks/useSubmitPost";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");
@@ -39,128 +26,36 @@ export default function PostForm() {
   const isMobileWidth = useMobileDetector();
   const theme = useRecoilValue(themeState);
   const editorRef = useRef<Editor | null>(null);
-  const navigate = useNavigate();
-  const params = useParams();
-  const titleRef = useRef<string>(title);
 
-  useEffect(() => {
-    titleRef.current = title;
+  useSetPostForm({
+    post,
+    editorRef,
+    setTitle,
+    setSummary,
+    setCategory,
+    setContent,
+    setCategoryList,
+    setPost,
+  });
 
-    setKeyWords(title.split(/\s+/));
-  }, [title]);
+  const { onUploadImage, onEditorChange, onChange } = useWritePost({
+    title,
+    editorRef,
+    setTitle,
+    setSummary,
+    setCategory,
+    setContent,
+    setKeyWords,
+  });
 
-  const onUploadImage = async (blob: any, callback: HookCallback) => {
-    if (!titleRef.current.trim()) {
-      toast.error("제목을 작성하세요.");
-      return;
-    }
-    const storageRef = ref(storage, `postsImg/${titleRef.current}/${uuidv4()}`);
-    console.log(storageRef);
-    console.log(storageRef.fullPath);
-    await uploadBytes(storageRef, blob);
-
-    const imgUrl = await getDownloadURL(storageRef);
-    callback(imgUrl);
-  };
-
-  const getCategoryList = async () => {
-    const cateogriesRef = collection(db, "category");
-    const cateogriesQuery = query(cateogriesRef, orderBy("createdAt", "asc"));
-    const datas = await getDocs(cateogriesQuery);
-
-    datas?.forEach((doc) => {
-      setCategoryList((prev) => [...prev, doc.data().category]);
-    });
-  };
-
-  const getPost = async (id: string) => {
-    const docRef = doc(db, "posts", id);
-    const docSnap = await getDoc(docRef);
-
-    setPost({ id: docSnap.id, ...(docSnap.data() as PostInterface) });
-  };
-
-  const onChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-
-    if (name === "title") setTitle(value);
-    if (name === "summary") setSummary(value);
-    if (name === "category") setCategory(value);
-  };
-
-  const onEditorChange = () => {
-    const markdown = editorRef.current?.getInstance().getMarkdown();
-    if (markdown) setContent(markdown);
-  };
-
-  const createPost = async () => {
-    await addDoc(collection(db, "posts"), {
-      title,
-      summary,
-      content,
-      createdAt: new Date(),
-      category,
-      keyWords,
-    });
-
-    toast.success("게시글을 생성했습니다.");
-    navigate("/");
-  };
-
-  const updatePost = async (postId: string) => {
-    const postRef = doc(db, "posts", postId);
-
-    await updateDoc(postRef, {
-      title,
-      summary,
-      content,
-      updatedAt: new Date(),
-      category,
-      keyWords,
-    });
-
-    toast.success("게시글을 수정했습니다.");
-    navigate(`/post/${postId}`);
-  };
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!content.trim()) {
-      toast.error("내용을 입력해주세요.");
-      return;
-    }
-
-    try {
-      if (post && post.id) {
-        await updatePost(post.id);
-      } else {
-        await createPost();
-      }
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error.code);
-    }
-  };
-
-  useEffect(() => {
-    getCategoryList();
-    if (params?.id) getPost(params?.id);
-  }, []);
-
-  useEffect(() => {
-    if (!post) return;
-    setTitle(post?.title);
-    setSummary(post?.summary);
-    setCategory(post?.category);
-    setContent(post?.content);
-
-    editorRef.current?.getInstance().setMarkdown(post?.content);
-  }, [post]);
+  const onSubmit = useSubmitPost({
+    title,
+    summary,
+    content,
+    category,
+    keyWords,
+    post,
+  });
 
   return (
     <>

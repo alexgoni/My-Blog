@@ -10,26 +10,14 @@ import {
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "firebaseApp";
 import { CategoryInterface } from "models/category";
+import { useGetCategories } from "modules/hooks/useGetCategories";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import styles from "styles/category.module.scss";
 
 function CategoryList() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [categories, setCategories] = useState<CategoryInterface[]>([]);
-
-  const getCategories = async () => {
-    setCategories([]);
-
-    const categoriesRef = collection(db, "category");
-    const categoriesQuery = query(categoriesRef, orderBy("createdAt", "asc"));
-    const datas = await getDocs(categoriesQuery);
-
-    datas?.forEach((doc) => {
-      const dataObj = { id: doc.id, ...doc.data() };
-      setCategories((prev) => [...prev, dataObj as CategoryInterface]);
-    });
-  };
+  const categories = useGetCategories();
 
   const handleDelete = async (categoryId: string) => {
     const confirm = window.confirm("해당 카테고리를 삭제하시겠습니까?");
@@ -45,10 +33,6 @@ function CategoryList() {
     if (!containerRef.current) return;
     containerRef.current.scrollTop = containerRef.current.scrollHeight;
   }, [categories]);
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   return (
     <div className={styles.list}>
