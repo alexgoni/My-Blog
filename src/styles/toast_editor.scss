@@ -1,0 +1,22 @@
+/* toast-editor */
+.token.operator {
+  background: none !important;
+}
+
+.toastui-editor-contents pre {
+  border-radius: 15px !important;
+}
+
+.white .toastui-editor-contents pre {
+  background-color: #f9ebd8 !important;
+}
+
+.dark .toastui-editor-contents pre {
+  background-color: rgb(10, 10, 10) !important;
+}
+
+.toastui-editor-contents {
+  font-family: Pretendard-Regular, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif !important;
+}

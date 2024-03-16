@@ -1,0 +1,18 @@
+/* theme */
+.white {
+  transition: all 0.25s linear;
+  @each $name, $color in $white {
+    --#{$name}: #{$color};
+  }
+
+  background-color: var(--bg);
+}
+
+.dark {
+  transition: all 0.25s linear;
+  @each $name, $color in $dark {
+    --#{$name}: #{$color};
+  }
+
+  background-color: var(--bg);
+}

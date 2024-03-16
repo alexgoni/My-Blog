@@ -32,9 +32,11 @@
   align-items: baseline;
   gap: 10px;
   color: var(--subTitle);
+  font-family: "Baloo Bhaina 2", sans-serif;
+  font-optical-sizing: auto;
   h1 {
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 500;
   }
 }
 
