@@ -1,20 +1,25 @@
 import {
+  QueryDocumentSnapshot,
   collection,
   getDocs,
   limit,
   orderBy,
   query,
+  startAfter,
   startAt,
   where,
 } from "firebase/firestore";
 import { db } from "firebaseApp";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "styles/post.module.scss";
 import { toast } from "react-toastify";
 import PaginationComponent from "./Pagination";
 import { PostInterface } from "models/post";
 import { getDocumentCount } from "modules/utils/getDocumentCount";
+import useInfiniteScroll from "modules/hooks/useInfiniteScroll";
+import { useGetHomePosts } from "modules/hooks/useGetPosts";
+import useIntersection from "modules/hooks/useIntersection";
 
 interface CategoryInfoProps {
   category?: string | null;
@@ -36,8 +41,8 @@ function CategoryInfo({ category }: CategoryInfoProps) {
   return (
     <>
       <div className={styles.categoryInfo}>
-        <h1 className="category">{category ? category : "All"}</h1>
-        <div className="postNum">{documentCount} posts</div>
+        <h1>{category ? category : "All"}</h1>
+        <div>{documentCount} posts</div>
       </div>
     </>
   );
@@ -59,60 +64,32 @@ function PostBlock({ data }: PostBlockProps) {
 const POSTS_PER_PAGE = 10;
 
 export function HomePostList() {
-  const [posts, setPosts] = useState<PostInterface[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const postsRef = collection(db, "posts");
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const postBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const { posts, isFirstPageRender } = useGetHomePosts(sentinelRef);
 
-  // 프로젝트 커질 시 url query나 무한 스크롤 방법으로 변환
-  const getPageFirstDoc = async (page: number) => {
-    const postsQuery = query(postsRef, orderBy("createdAt", "desc"));
-    const datas = await getDocs(postsQuery);
-    return datas.docs[(page - 1) * POSTS_PER_PAGE];
-  };
-
-  const getPosts = async (page: number) => {
-    setPosts([]);
-
-    const pageFirstDoc = await getPageFirstDoc(page);
-    if (!pageFirstDoc) return;
-
-    const postsQuery = query(
-      postsRef,
-      orderBy("createdAt", "desc"),
-      startAt(pageFirstDoc),
-      limit(POSTS_PER_PAGE)
-    );
-    const datas = await getDocs(postsQuery);
-    const newPosts = datas.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as PostInterface[];
-
-    setPosts(newPosts);
-  };
-
-  useEffect(() => {
-    getPosts(currentPage);
-  }, [currentPage]);
-
+  useIntersection(postBlockRefs, posts);
   return (
     <>
       <CategoryInfo />
       <div className={styles.postList}>
         {posts?.length > 0 ? (
-          posts?.map((postData) => (
-            <PostBlock key={postData?.id} data={postData} />
+          posts?.map((postData, idx) => (
+            <div
+              key={postData?.id}
+              ref={(element) => (postBlockRefs.current[idx] = element)}
+              className={styles.postBlockContainer}
+            >
+              <PostBlock data={postData} />
+            </div>
           ))
         ) : (
           <div className={styles.noPost}>게시글이 없습니다.</div>
         )}
       </div>
-      {posts?.length > 0 ? (
-        <PaginationComponent
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      ) : null}
+      {isFirstPageRender && (
+        <div className={styles.sentinelRef} ref={sentinelRef}></div>
+      )}
     </>
   );
 }
@@ -124,33 +101,48 @@ export function CategoryPostList() {
   const params = useParams();
   const postsRef = collection(db, "posts");
 
+  const [loading, setLoading] = useState(false);
+  const lastPostRef = useRef<any>(null);
+  const sentinelRef = useRef(null);
+
   useEffect(() => {
     if (params?.category) {
       setCategory(params.category);
     }
   }, []);
 
-  const getPageFirstDoc = async (page: number) => {
+  useEffect(() => {
+    getFirstPagePosts();
+  }, []);
+
+  const getFirstPagePosts = async () => {
     const postsQuery = query(
       postsRef,
       where("category", "==", category),
-      orderBy("createdAt", "desc")
+      orderBy("createdAt", "desc"),
+      limit(POSTS_PER_PAGE)
     );
+
     const datas = await getDocs(postsQuery);
-    return datas.docs[(page - 1) * POSTS_PER_PAGE];
+    const newPosts = datas.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as PostInterface[];
+
+    setPosts(newPosts);
+
+    lastPostRef.current = datas.docs[datas.docs.length - 1];
   };
 
-  const getPosts = async (page: number) => {
-    setPosts([]);
-
-    const pageFirstDoc = await getPageFirstDoc(page);
-    if (!pageFirstDoc) return;
+  const getMorePosts = async () => {
+    setLoading(true);
+    if (!lastPostRef.current) return;
 
     const postsQuery = query(
       postsRef,
       where("category", "==", category),
       orderBy("createdAt", "desc"),
-      startAt(pageFirstDoc),
+      startAt(lastPostRef.current),
       limit(POSTS_PER_PAGE)
     );
     const datas = await getDocs(postsQuery);
@@ -159,12 +151,12 @@ export function CategoryPostList() {
       ...doc.data(),
     })) as PostInterface[];
 
-    setPosts(newPosts);
+    setLoading(false);
+    setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+    lastPostRef.current = datas.docs[datas.docs.length - 1];
   };
 
-  useEffect(() => {
-    getPosts(currentPage);
-  }, [currentPage, category]);
+  // useInfiniteScroll(loading, sentinelRef, getMorePosts);
 
   return (
     <>

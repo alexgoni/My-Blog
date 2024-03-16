@@ -6,12 +6,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 20px;
+  width: 100%;
   .noPost {
     margin-top: 5vh;
     padding: 24px;
     text-align: center;
     color: gray;
   }
+}
+
+.sentinelRef {
+  height: 10vh;
+  margin-top: 15vh;
 }
 
 @media screen and (max-width: 600px) {
@@ -34,34 +40,44 @@
 
 /* post block */
 
-.postBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px 25px;
+.postBlockContainer {
+  transition: all 0.5s ease-in-out;
+  transform: scale(1.02);
+  opacity: 0.5;
+  overflow: hidden;
   background-color: var(--postBlock);
   border-radius: 10px;
-  height: 110px;
-  overflow: hidden;
   box-shadow: 0 2px 5px var(--boxShadow);
   color: var(--text);
-  .title {
-    font-weight: bold;
-    font-size: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-bottom: 5px;
-    white-space: nowrap;
+  .postBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 25px;
+    height: 110px;
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-bottom: 5px;
+      white-space: nowrap;
+    }
+    .summary {
+      color: gray;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 4;
+      line-height: 18px;
+      white-space: pre-wrap;
+    }
   }
-  .summary {
-    color: gray;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 4;
-    line-height: 18px;
-    white-space: pre-wrap;
+  &.visible {
+    transform: scale(1);
+    opacity: 1;
+    border: 0.5px solid $darkColor;
   }
 }
 
@@ -283,27 +299,4 @@
     background-color: var(--bg);
     color: var(--text);
   }
-}
-
-/* pagination */
-
-.paginationContainer {
-  display: flex;
-  justify-content: center;
-  margin: 60px 0 30px 0;
-}
-
-.pagination {
-  height: 100vh;
-}
-
-.ref {
-  height: 10vh;
-  background-color: red;
-  margin-top: 50vh;
-}
-
-.loading {
-  height: 10vh;
-  background-color: blue;
 }

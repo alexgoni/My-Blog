@@ -1,4 +1,3 @@
-import useInfiniteScroll from "modules/hooks/useInfiniteScroll";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "styles/post.module.scss";
 
@@ -16,6 +15,30 @@ function Pagination() {
   const [loading, setLoading] = useState(false);
   const sentinelRef = useRef(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !loading) {
+            console.log("hi");
+            loadMoreData();
+          }
+        });
+      },
+      { threshold: 0.5 } // 화면에 반 이상 들어왔을 때 로딩 시작
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    return () => {
+      if (sentinelRef.current) {
+        observer.unobserve(sentinelRef.current);
+      }
+    };
+  }, [loading]);
+
   const loadMoreData = () => {
     setLoading(true);
     setTimeout(() => {
@@ -23,8 +46,6 @@ function Pagination() {
       setData((prev) => [...prev, ...Array.from({ length: 12 }, () => 1)]);
     }, 1000);
   };
-
-  // useInfiniteScroll(loading, sentinelRef, loadMoreData);
 
   return (
     <div className={styles.pagination}>
