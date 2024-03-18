@@ -11,6 +11,8 @@ import {
 } from "modules/hooks/post_list/useGetPosts";
 import useIntersection from "modules/hooks/post_detail/useIntersection";
 import useGetPinnedPosts from "modules/hooks/post_list/useGetPinnedPosts";
+import { useRecoilValue } from "recoil";
+import { savedPostsAtom } from "recoil/posts";
 
 function CategoryInfo({ category }: { category?: string | null }) {
   const [documentCount, setDocumentCount] = useState<number>(0);
@@ -70,9 +72,10 @@ export function PinnedPosts() {
 export function AllPostList() {
   const sentinelRef = useRef<HTMLDivElement>(null);
   const postBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { posts, isFirstPageRender } = useGetAllPosts(sentinelRef);
-
+  const { isFirstPageRender } = useGetAllPosts(sentinelRef);
+  const posts = useRecoilValue(savedPostsAtom);
   useIntersection(postBlockRefs, posts);
+
   return (
     <>
       <CategoryInfo />
@@ -103,10 +106,8 @@ export function CategoryPostList() {
   const params = useParams();
   const sentinelRef = useRef<HTMLDivElement>(null);
   const postBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { posts, isFirstPageRender } = useGetCategoryPosts(
-    sentinelRef,
-    category
-  );
+  const { isFirstPageRender } = useGetCategoryPosts(sentinelRef, category);
+  const posts = useRecoilValue(savedPostsAtom);
 
   useIntersection(postBlockRefs, posts);
 

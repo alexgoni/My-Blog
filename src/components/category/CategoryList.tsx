@@ -6,6 +6,7 @@ import { isUserAdminState } from "recoil/user";
 import { CategoryInterface } from "models/category";
 import useGetCategories from "modules/hooks/category/useGetCategories";
 import useUpdatePostNum from "modules/hooks/category/useUpdatePostNum";
+import useScrollToTop from "modules/hooks/useScrollToTop";
 
 function CategoryBlock({ data }: { data: CategoryInterface }) {
   return (
@@ -27,6 +28,7 @@ export default function CategoryList() {
   const isUserAdmin = useRecoilValue(isUserAdminState);
   const categories = useGetCategories();
   useUpdatePostNum(categories);
+  useScrollToTop();
 
   return (
     <>

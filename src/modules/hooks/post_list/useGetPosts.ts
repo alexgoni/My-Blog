@@ -13,16 +13,18 @@ import { PostInterface } from "models/post";
 import { useEffect, useState } from "react";
 import useInfiniteScroll from "../post_detail/useInfiniteScroll";
 import { toast } from "react-toastify";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { savedPostsAtom } from "recoil/posts";
 
 const POSTS_PER_PAGE = 10;
 const POSTS_REF = collection(db, "posts");
 
 export function useGetAllPosts(sentinelRef: React.RefObject<HTMLDivElement>) {
-  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [isFirstPageRender, setIsFirstPageRender] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [lastPostSnapshot, setLastPostSnapshot] =
     useState<QueryDocumentSnapshot | null>(null);
+  const setPosts = useSetRecoilState(savedPostsAtom);
 
   const getFirstPagePosts = async () => {
     const postsQuery = query(
@@ -57,6 +59,7 @@ export function useGetAllPosts(sentinelRef: React.RefObject<HTMLDivElement>) {
       id: doc.id,
       ...doc.data(),
     })) as PostInterface[];
+
     setPosts((prevPosts) => [...prevPosts, ...newPosts]);
     setLastPostSnapshot(datas.docs[datas.docs.length - 1]);
     setLoading(false);
@@ -73,18 +76,18 @@ export function useGetAllPosts(sentinelRef: React.RefObject<HTMLDivElement>) {
     getFirstPagePosts();
   }, []);
 
-  return { posts, isFirstPageRender };
+  return { isFirstPageRender };
 }
 
 export function useGetCategoryPosts(
   sentinelRef: React.RefObject<HTMLDivElement>,
   category: string | null
 ) {
-  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [isFirstPageRender, setIsFirstPageRender] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [lastPostSnapshot, setLastPostSnapshot] =
     useState<QueryDocumentSnapshot | null>(null);
+  const setPosts = useSetRecoilState(savedPostsAtom);
 
   const getFirstPagePosts = async () => {
     const postsQuery = query(
@@ -137,7 +140,7 @@ export function useGetCategoryPosts(
     getFirstPagePosts();
   }, [category]);
 
-  return { posts, isFirstPageRender };
+  return { isFirstPageRender };
 }
 
 export function useGetSearchPosts(searchWord: string) {
