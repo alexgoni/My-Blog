@@ -6,13 +6,7 @@ import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import styles from "styles/post.module.scss";
 import { db, storage } from "firebaseApp";
-import {
-  deleteDoc,
-  doc,
-  getDoc,
-  increment,
-  updateDoc,
-} from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Comments from "./Comments";
 import Loading from "components/layout/Loading";
@@ -22,28 +16,24 @@ import Prism from "prismjs";
 import { deleteObject, listAll, ref } from "firebase/storage";
 import { PostInterface } from "models/post";
 import { useMobileDetector } from "modules/hooks/useMobileDetector";
+import useGetPostDetail from "modules/hooks/useGetPostDetail";
+import useUpdatePostDetail from "modules/hooks/useUpdatePostDetail";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostInterface | null>(null);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const isUserAdmin = useRecoilValue(isUserAdminState);
   const theme = useRecoilValue(themeState);
   const params = useParams();
   const navigate = useNavigate();
   const isMobileWidth = useMobileDetector();
 
-  const updateViews = async (id: string) => {
-    const docRef = doc(db, "posts", id);
+  const getPost = useGetPostDetail(setPost);
+  const { updateViews, updatePinned } = useUpdatePostDetail();
 
-    await updateDoc(docRef, {
-      views: increment(1),
-    });
-  };
-
-  const getPost = async (id: string) => {
-    const docRef = doc(db, "posts", id);
-    const docSnap = await getDoc(docRef);
-
-    setPost({ id: docSnap.id, ...(docSnap.data() as PostInterface) });
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+    if (params?.id) updatePinned(params.id, event.target.checked);
   };
 
   const handleDelete = async () => {
@@ -63,10 +53,14 @@ export default function PostDetail() {
   useEffect(() => {
     (async () => {
       if (!params?.id) return;
-      await updateViews(params?.id);
-      await getPost(params?.id);
+      await updateViews(params.id);
+      await getPost(params.id);
     })();
   }, []);
+
+  useEffect(() => {
+    if (post?.pinned) setIsChecked(true);
+  }, [post]);
 
   return (
     <>
@@ -98,6 +92,11 @@ export default function PostDetail() {
                     <span onClick={handleDelete} className={styles.delete}>
                       삭제
                     </span>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                    />
                   </div>
                 </>
               )}

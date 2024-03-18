@@ -6,10 +6,20 @@ import { PostInterface } from "models/post";
 import { getDocumentCount } from "modules/utils/getDocumentCount";
 import {
   useGetCategoryPosts,
-  useGetHomePosts,
+  useGetAllPosts,
   useGetSearchPosts,
 } from "modules/hooks/useGetPosts";
 import useIntersection from "modules/hooks/useIntersection";
+import {
+  QueryDocumentSnapshot,
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+  where,
+} from "firebase/firestore";
 
 function CategoryInfo({ category }: { category?: string | null }) {
   const [documentCount, setDocumentCount] = useState<number>(0);
@@ -45,10 +55,47 @@ function PostBlock({ data }: { data: PostInterface }) {
   );
 }
 
-export function HomePostList() {
+const POSTS_REF = collection(db, "posts");
+
+export function PinnedPosts() {
+  const [posts, setPosts] = useState<PostInterface[]>([]);
+
+  const getPinnedPosts = async () => {
+    const q = query(collection(db, "posts"), where("pinned", "==", true));
+    const datas = await getDocs(q);
+    const newPosts = datas.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as PostInterface[];
+    setPosts(newPosts);
+  };
+
+  useEffect(() => {
+    getPinnedPosts();
+  }, []);
+
+  return (
+    <div className={styles.pinnedPosts}>
+      <h1 className={styles.pinnedTitle}>Pinned Posts</h1>
+      <div className={styles.postList}>
+        {posts?.length > 0 ? (
+          posts?.map((postData) => (
+            <div key={postData?.id} className={styles.pinnedPostBlockContainer}>
+              <PostBlock data={postData} />
+            </div>
+          ))
+        ) : (
+          <div className={styles.noPost}>게시글이 없습니다.</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function AllPostList() {
   const sentinelRef = useRef<HTMLDivElement>(null);
   const postBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { posts, isFirstPageRender } = useGetHomePosts(sentinelRef);
+  const { posts, isFirstPageRender } = useGetAllPosts(sentinelRef);
 
   useIntersection(postBlockRefs, posts);
   return (

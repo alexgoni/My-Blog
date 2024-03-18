@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 const POSTS_PER_PAGE = 10;
 const POSTS_REF = collection(db, "posts");
 
-export function useGetHomePosts(sentinelRef: React.RefObject<HTMLDivElement>) {
+export function useGetAllPosts(sentinelRef: React.RefObject<HTMLDivElement>) {
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [isFirstPageRender, setIsFirstPageRender] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);

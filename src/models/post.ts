@@ -12,4 +12,5 @@ export interface PostInterface {
   comments?: CommentInterface[];
   keyWords: string[];
   views: number;
+  pinned?: boolean;
 }

@@ -26,6 +26,17 @@
   }
 }
 
+.pinnedPosts {
+  .pinnedTitle {
+    margin: $mainGap 0;
+    font-family: "Baloo Bhaina 2", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 24px;
+    font-weight: 500;
+    color: #d63520;
+  }
+}
+
 .categoryInfo {
   margin: $mainGap 0;
   display: flex;
@@ -41,6 +52,47 @@
 }
 
 /* post block */
+
+.pinnedPostBlockContainer {
+  overflow: hidden;
+  background-color: var(--postBlock);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px var(--boxShadow);
+  border: 0.5px solid #d63520;
+  .postBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 25px;
+    height: 110px;
+    color: var(--text);
+
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-bottom: 5px;
+      white-space: nowrap;
+    }
+    .summary {
+      color: gray;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 4;
+      line-height: 18px;
+      white-space: pre-wrap;
+    }
+  }
+  &:hover,
+  &:focus {
+    transform: scale(1.02);
+    border-color: rgb(248, 155, 138);
+    transition: all 0.1s ease-in-out;
+  }
+}
 
 .postBlockContainer {
   transition: all 0.5s ease-in-out;
@@ -84,7 +136,7 @@
   &:hover,
   &:focus {
     transform: scale(1.02);
-    border-color: tomato;
+    border-color: rgb(248, 155, 138);
     transition: all 0.1s ease-in-out;
   }
 }
@@ -126,10 +178,10 @@
       font-size: 14px;
       color: gray;
     }
-
     .utils {
       margin-left: 5px;
       display: flex;
+      align-items: center;
       gap: 5px;
       & a,
       .delete {
@@ -179,6 +231,7 @@
 .viewerContainer * {
   font-size: 16px !important;
 }
+
 /* comments */
 
 .comments {
@@ -305,6 +358,7 @@
       height: 48px;
       margin: 0 auto;
       padding: 10px;
+      color: black;
       background-color: $mainColor;
       &:hover,
       &:focus {
