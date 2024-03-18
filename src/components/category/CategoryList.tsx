@@ -4,10 +4,8 @@ import { FiPlusCircle } from "react-icons/fi";
 import { useRecoilValue } from "recoil";
 import { isUserAdminState } from "recoil/user";
 import { CategoryInterface } from "models/category";
-import {
-  useGetCategories,
-  useUpdatePostNum,
-} from "modules/hooks/useGetCategories";
+import useGetCategories from "modules/hooks/category/useGetCategories";
+import useUpdatePostNum from "modules/hooks/category/useUpdatePostNum";
 
 function CategoryBlock({ data }: { data: CategoryInterface }) {
   return (

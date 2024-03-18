@@ -1,16 +1,7 @@
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "firebaseApp";
-import { CategoryInterface } from "models/category";
-import { useGetCategories } from "modules/hooks/useGetCategories";
+import useGetCategories from "modules/hooks/category/useGetCategories";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import styles from "styles/category.module.scss";

@@ -16,8 +16,8 @@ import Prism from "prismjs";
 import { deleteObject, listAll, ref } from "firebase/storage";
 import { PostInterface } from "models/post";
 import { useMobileDetector } from "modules/hooks/useMobileDetector";
-import useGetPostDetail from "modules/hooks/useGetPostDetail";
-import useUpdatePostDetail from "modules/hooks/useUpdatePostDetail";
+import useGetPostDetail from "modules/hooks/post_detail/useGetPostDetail";
+import useUpdatePostDetail from "modules/hooks/post_detail/useUpdatePostDetail";
 
 export default function PostDetail() {
   const [post, setPost] = useState<PostInterface | null>(null);

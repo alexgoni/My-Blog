@@ -1,4 +1,4 @@
-import { doc, increment, updateDoc } from "@firebase/firestore";
+import { doc, increment, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 
 export default function useUpdatePostDetail() {

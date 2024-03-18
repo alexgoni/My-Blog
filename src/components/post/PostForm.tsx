@@ -11,9 +11,9 @@ import { useRef, useState } from "react";
 import styles from "styles/post.module.scss";
 import { PostInterface } from "models/post";
 import { useMobileDetector } from "modules/hooks/useMobileDetector";
-import useWritePost from "modules/hooks/useWritePost";
-import useSetPostForm from "modules/hooks/useSetPostForm";
-import useSubmitPost from "modules/hooks/useSubmitPost";
+import useWritePost from "modules/hooks/post_form/useWritePost";
+import useSetPostForm from "modules/hooks/post_form/useSetPostForm";
+import useSubmitPost from "modules/hooks/post_form/useSubmitPost";
 
 export default function PostForm() {
   const [title, setTitle] = useState<string>("");

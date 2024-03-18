@@ -8,18 +8,9 @@ import {
   useGetCategoryPosts,
   useGetAllPosts,
   useGetSearchPosts,
-} from "modules/hooks/useGetPosts";
-import useIntersection from "modules/hooks/useIntersection";
-import {
-  QueryDocumentSnapshot,
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-  where,
-} from "firebase/firestore";
+} from "modules/hooks/post_list/useGetPosts";
+import useIntersection from "modules/hooks/post_detail/useIntersection";
+import useGetPinnedPosts from "modules/hooks/post_list/useGetPinnedPosts";
 
 function CategoryInfo({ category }: { category?: string | null }) {
   const [documentCount, setDocumentCount] = useState<number>(0);
@@ -55,24 +46,8 @@ function PostBlock({ data }: { data: PostInterface }) {
   );
 }
 
-const POSTS_REF = collection(db, "posts");
-
 export function PinnedPosts() {
-  const [posts, setPosts] = useState<PostInterface[]>([]);
-
-  const getPinnedPosts = async () => {
-    const q = query(collection(db, "posts"), where("pinned", "==", true));
-    const datas = await getDocs(q);
-    const newPosts = datas.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as PostInterface[];
-    setPosts(newPosts);
-  };
-
-  useEffect(() => {
-    getPinnedPosts();
-  }, []);
+  const posts = useGetPinnedPosts();
 
   return (
     <div className={styles.pinnedPosts}>

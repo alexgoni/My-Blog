@@ -11,7 +11,7 @@ import {
 import { db } from "firebaseApp";
 import { PostInterface } from "models/post";
 import { useEffect, useState } from "react";
-import useInfiniteScroll from "./useInfiniteScroll";
+import useInfiniteScroll from "../post_detail/useInfiniteScroll";
 import { toast } from "react-toastify";
 
 const POSTS_PER_PAGE = 10;

@@ -1,4 +1,4 @@
-import { doc, getDoc } from "@firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import { PostInterface } from "models/post";
 import { Dispatch, SetStateAction } from "react";
