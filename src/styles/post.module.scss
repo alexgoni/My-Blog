@@ -27,13 +27,14 @@
 }
 
 .pinnedPosts {
+  margin-bottom: 60px;
   .pinnedTitle {
     margin: $mainGap 0;
     font-family: "Baloo Bhaina 2", sans-serif;
     font-optical-sizing: auto;
     font-size: 24px;
     font-weight: 500;
-    color: #d63520;
+    color: #fb0094;
   }
 }
 
@@ -54,11 +55,12 @@
 /* post block */
 
 .pinnedPostBlockContainer {
-  overflow: hidden;
+  min-width: 100%;
   background-color: var(--postBlock);
   border-radius: 10px;
   box-shadow: 0 2px 5px var(--boxShadow);
-  border: 0.5px solid #d63520;
+  position: relative;
+  z-index: 1;
   .postBlock {
     display: flex;
     flex-direction: column;
@@ -66,7 +68,9 @@
     padding: 20px 25px;
     height: 110px;
     color: var(--text);
-
+    background-color: var(--postBlock);
+    border-radius: 8px;
+    z-index: 2;
     .title {
       font-weight: bold;
       font-size: 20px;
@@ -94,11 +98,42 @@
   }
 }
 
+@keyframes steam {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.pinnedPostBlockContainer::before,
+.pinnedPostBlockContainer::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  background: linear-gradient(45deg, #fb0094, #ff0000, #fb0094, #ff0000);
+  background-size: 400%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  z-index: -1;
+  animation: steam 20s linear infinite;
+  border-radius: 10px;
+}
+
+.pinnedPostBlockContainer::after {
+  filter: blur(3px);
+}
+
 .postBlockContainer {
   transition: all 0.5s ease-in-out;
   transform: scale(1.02);
   opacity: 0.5;
-  overflow: hidden;
+  min-width: 100%;
   background-color: var(--postBlock);
   border-radius: 10px;
   box-shadow: 0 2px 5px var(--boxShadow);
@@ -109,6 +144,8 @@
     padding: 20px 25px;
     height: 110px;
     color: var(--text);
+    border-radius: 8px;
+
     .title {
       font-weight: bold;
       font-size: 20px;
